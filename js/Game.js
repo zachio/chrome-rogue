@@ -24,6 +24,8 @@ function Game(canvasID) {
 	var self = this;
 
 	this.canvas = document.getElementById(canvasID);
+	this.ctx = this.canvas.getContext("2d");
+
 
 	this.screen = {};
 	this.screen.adjust=function (){
@@ -31,6 +33,7 @@ function Game(canvasID) {
 		self.screen.height = window.innerHeight;
 		self.canvas.width = self.screen.width;
 		self.canvas.height = self.screen.height;
+		self.ctx.imageSmoothingEnabled = false;
 	}
 
 	this.canvas.style.backgroundColor = "black";
@@ -39,7 +42,6 @@ function Game(canvasID) {
 	window.onresize = function(){self.screen.adjust()};
 	this.screen.adjust();
 
-	this.ctx = this.canvas.getContext("2d");
 	//Turning antialias off by default
 	this.ctx.imageSmoothingEnabled = false;
 
