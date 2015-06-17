@@ -1,6 +1,9 @@
-require("js/Game.js");
-require("js/Map.js");
-require("js/Sprite.js");
+require(
+  ["js/Game.js",
+  "js/Map.js",
+  "js/Sprite.js"],
+  main
+  );
 
 function main() {
   var roguelike = {
