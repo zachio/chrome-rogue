@@ -1,18 +1,12 @@
-require(
-  ["js/Game.js",
-  "js/Map.js",
-  "js/Sprite.js"],
-  main
-  );
-
-function main() {
   var roguelike = {
     game: {
       library: null,
       timer: Date.now(),
-      tilesets: [],
+      tilesets: {},
       audio: [],
       sprites: [],
+      autotile: true,
+      walls: true,
       initialize: function(canvas, images) {
         var map = roguelike.map;
         var player = roguelike.player;
@@ -21,18 +15,24 @@ function main() {
         this.library.load(images, function run() {
           player.position();
           game.library.audio[1].setAttribute("loop","true");
-          //game.library.audio[1].play();
+          game.library.audio[1].play();
           //Prerender sprites
           //Nothing
           game.sprites[0] = new Sprite();
           //Floor
-          game.sprites[1] = new Sprite(game.library.images[0], 0.5 * map.tileSize, 11.5 * map.tileSize);
+          game.sprites[1] = new Sprite(game.library.images[0], 0.5, 11.5);
           //Wall
-          game.sprites[2] = new Sprite(game.library.images[0], 0.5 * map.tileSize, 13.5 * map.tileSize);
+          game.sprites[2] = new Sprite(game.library.images[0], 0.5, 13.5);
           //Start
-          game.sprites[3] = new Sprite(game.library.images[2], 13 * map.tileSize, 0);
+          game.sprites[3] = new Sprite(game.library.images[2], 13, 0);
           //End
-          game.sprites[4] = new Sprite(game.library.images[2], 5 * map.tileSize, 15 * map.tileSize);
+          game.sprites[4] = new Sprite(game.library.images[2], 5, 15);
+          //chest
+          game.sprites[5] = new Sprite(game.library.images[4], 6, 4);
+
+          // Ground sprite sheet
+          game.tilesets.floor = new TileSheet(game.library.images[0], map.tileSize, 0, 10);
+
           game.library.loop(game.tick);
         });
 
@@ -50,20 +50,47 @@ function main() {
             var tile = map.data[x][y];
             var drawX = ~~(map.tileSize * map.scale * tile.x - player.x * map.tileSize * map.scale + game.library.screen.width / 2 - map.tileSize * map.scale / 2 + map.tileSize / 2);
             var drawY = ~~(map.tileSize * map.scale * tile.y - player.y * map.tileSize * map.scale + game.library.screen.height / 2 - map.tileSize * map.scale / 2 + map.tileSize / 2);
-            if(tile.type === 3 || tile.type === 4 ) {
+            switch(tile.type) {
+              //Auto tile bam
+              case 1:
+                if(game.autotile){
+                  game.library.ctx.drawImage(
+                    game.tilesets.floor,
+                    tile.cropX * map.tileSize, 0,
+                    map.tileSize, map.tileSize,
+                    drawX, drawY,
+                    map.tileSize * map.scale,
+                    map.tileSize * map.scale
+                  );
+                } else {
+                  game.library.ctx.drawImage(
+                    game.sprites[1],
+                    drawX, drawY,
+                    map.tileSize * map.scale,
+                    map.tileSize * map.scale
+                    );
+                }
+                break;
+              default:
+                if(game.walls) {
+                  game.library.ctx.drawImage(
+                    game.sprites[tile.type],
+                    drawX, drawY,
+                    map.tileSize * map.scale,
+                    map.tileSize * map.scale
+                );
+                }
+                break;
+            }
+            if(tile.entity) {
               game.library.ctx.drawImage(
-                game.sprites[1],
+                game.sprites[tile.entity],
                 drawX, drawY,
                 map.tileSize * map.scale,
                 map.tileSize * map.scale
               );
             }
-            game.library.ctx.drawImage(
-              game.sprites[tile.type],
-              drawX, drawY,
-              map.tileSize * map.scale,
-              map.tileSize * map.scale
-            );
+
           }
         }
         player.render();
@@ -71,8 +98,7 @@ function main() {
           ["game.library.fps: " + game.library.fps,
           "player.x: " + ~~player.x,
           "player.y: " + ~~player.y,
-          "player.collision: " + player.collision(0,0),
-          "player.facing: " + player.facing
+          "game.autotile (press 1): " + game.autotile
         ]);
       },
       update: function() {
@@ -160,13 +186,12 @@ function main() {
       collision: function(x, y) {
         var map = roguelike.map;
         var player = roguelike.player;
-        playerX = Math.floor(player.x + x);
-        playerY = Math.floor(player.y + y);
-        if(map.data[playerX][playerY].type === 1 || map.data[playerX][playerY].type === 3 || map.data[playerX][playerY].type === 4) {
+        playerX = ~~(player.x + x);
+        playerY = ~~(player.y + y);
+        if(map.data[playerX][playerY].type === 1 && map.data[playerX][playerY].entity != 5) {
           return false;
-        } else {
-          return true;
         }
+        return true;
       },
       tryMove: function() {
         var game = roguelike.game;
@@ -203,27 +228,47 @@ function main() {
   //Key Listeners
   window.onkeydown = function (event) {
     var player = roguelike.player;
+    var game = roguelike.game;
+    var map = roguelike.map;
     switch (event.keyCode) {
-     //Left
-     case 37:
-      player.facing = "left";
-      player.moving.left = true;
-      break;
-     //Up
-     case 38:
-      player.facing = "up";
-       player.moving.up = true;
-       break;
-     //Right
-     case 39:
-      player.facing = "right";
-      player.moving.right = true;
-      break;
-     //Down
-     case 40:
-      player.facing = "down";
-      player.moving.down = true;
-      break;
+       //Left
+      case 37:
+      case 65: // a
+        player.facing = "left";
+        player.moving.left = true;
+        break;
+       //Up
+      case 38:
+      case 87: // w
+        player.facing = "up";
+         player.moving.up = true;
+         break;
+       //Right
+      case 39:
+      case 68: // d
+        player.facing = "right";
+        player.moving.right = true;
+        break;
+       //Down
+      case 40:
+      case 83: // s
+        player.facing = "down";
+        player.moving.down = true;
+        break;
+      //options
+      case 49: // 1 toggle autotile
+        game.autotile = (game.autotile) ? false : true;
+        break;
+      case 50: // 2 toggle walls
+      game.walls = (game.walls) ? false : true;
+        break;
+      case 187: // + increase scale
+        map.scale++;
+        break;
+      case 189: // - decrease scale
+        map.scale--;
+        break;
+
    }
    if(player.moving.left && player.moving.up) player.facing = "up"
   };
@@ -232,18 +277,22 @@ function main() {
     switch (event.keyCode) {
       //Left
       case 37:
+      case 65: // a
         player.moving.left = false;
         break;
       //Up
       case 38:
+      case 87: // w
         player.moving.up = false;
         break;
       //Right
       case 39:
+      case 68: // s
         player.moving.right = false;
         break;
       //Down
       case 40:
+      case 83: // s
         player.moving.down = false;
         break;
     }
@@ -258,6 +307,6 @@ function main() {
   "assets/images/characterDown.png",
   "assets/images/dungeontileset.png",
   "assets/images/character-face.png",
+  "assets/images/chest.png",
   "assets/audio/dungeon.mp3",
   "assets/audio/little_miss_sunshine.mp3"]);
-}

@@ -11,6 +11,8 @@ function Map(size, tileSize, scale, min_room, max_room) {
     this.x = x;
     this.y = y;
     this.type = type;
+    this.entity = null;
+    this.cropX = 0;
   };
   var Room = function(x, y, width, height) {
     this.x = x;
@@ -128,16 +130,57 @@ function Map(size, tileSize, scale, min_room, max_room) {
       }
     }
   }
-
   //Place start
   var room = this.rooms[0];
   var x = random(room.x, room.x + room.width);
   var y = random(room.y, room.y + room.height);
-  this.data[x][y].type = 3;
+  this.data[x][y].entity = 3;
 
   //Place end
   var room = this.rooms[this.rooms.length - 1];
   var x = random(room.x, room.x + room.width);
   var y = random(room.y, room.y + room.height);
-  this.data[x][y].type = 4;
-}
+  this.data[x][y].entity = 4;
+
+  //Place chests
+  for (i = 1; i < room_count - 1; i++) {
+    var room = this.rooms[i];
+    if(random(0,100) > 50) {
+      var x = random(room.x, room.x + room.width);
+      var y = random(room.y, room.y + room.height);
+      console.log("x: ", x, "y: ", y);
+      this.data[x][y].entity = 5;
+    }
+  }
+
+  //Auto Tile
+  for (var x = 0; x < this.size; x++) {
+    for (var y = 0; y < this.size; y++) {
+      if(this.data[x][y].type === 1) {
+        var cropX = 0;
+        if(typeof this.data[x][y-1] != "undefined")
+          if (this.data[x][y-1].type === 1) cropX +=  1;
+        if(typeof this.data[x+1] != "undefined")
+          if(this.data[x+1][y].type === 1) cropX += 2;
+        if(typeof this.data[x][y+1] != "undefined")
+          if(this.data[x][y+1].type === 1) cropX += 4;
+        if(typeof this.data[x-1] != "undefined")
+          if(this.data[x-1][y].type === 1) cropX += 8;
+        this.data[x][y].cropX = cropX;
+      } else if(this.data[x][y].type === 2) {
+        var cropX = 0;
+        if(typeof this.data[x][y-1] != "undefined")
+          if (this.data[x][y-1].type === 2) cropX +=  1;
+        if(typeof this.data[x+1] != "undefined")
+          if(this.data[x+1][y].type === 2) cropX += 2;
+        if(typeof this.data[x][y+1] != "undefined")
+          if(this.data[x][y+1].type === 2) cropX += 4;
+        if(typeof this.data[x-1] != "undefined")
+          if(this.data[x-1][y].type === 2) cropX += 8;
+        this.data[x][y].cropX = cropX;
+      }
+    }
+  }
+
+
+};
