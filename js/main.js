@@ -7,6 +7,7 @@
       sprites: [],
       autotile: true,
       walls: true,
+      muted: false,
       initialize: function(canvas, images) {
         var map = roguelike.map;
         var player = roguelike.player;
@@ -48,8 +49,9 @@
         for(var x = startRenderX; x < endRenderX; x++) {
           for(var y = startRenderY; y < endRenderY; y++) {
             var tile = map.data[x][y];
-            var drawX = ~~(map.tileSize * map.scale * tile.x - player.x * map.tileSize * map.scale + game.library.screen.width / 2 - map.tileSize * map.scale / 2 + map.tileSize / 2);
-            var drawY = ~~(map.tileSize * map.scale * tile.y - player.y * map.tileSize * map.scale + game.library.screen.height / 2 - map.tileSize * map.scale / 2 + map.tileSize / 2);
+            var tileSize = map.tileSize * map.scale;
+            var drawX = ~~(tileSize * tile.x - player.x * tileSize + game.library.screen.width / 2 - map.tileSize / 2);
+            var drawY = ~~(tileSize * tile.y - player.y * tileSize + game.library.screen.height / 2 - map.tileSize / 2);
             switch(tile.type) {
               //Auto tile bam
               case 1:
@@ -59,15 +61,15 @@
                     tile.cropX * map.tileSize, 0,
                     map.tileSize, map.tileSize,
                     drawX, drawY,
-                    map.tileSize * map.scale,
-                    map.tileSize * map.scale
+                    tileSize,
+                    tileSize
                   );
                 } else {
                   game.library.ctx.drawImage(
                     game.sprites[1],
                     drawX, drawY,
-                    map.tileSize * map.scale,
-                    map.tileSize * map.scale
+                    tileSize,
+                    tileSize
                     );
                 }
                 break;
@@ -76,8 +78,8 @@
                   game.library.ctx.drawImage(
                     game.sprites[tile.type],
                     drawX, drawY,
-                    map.tileSize * map.scale,
-                    map.tileSize * map.scale
+                    tileSize,
+                    tileSize
                 );
                 }
                 break;
@@ -86,8 +88,8 @@
               game.library.ctx.drawImage(
                 game.sprites[tile.entity],
                 drawX, drawY,
-                map.tileSize * map.scale,
-                map.tileSize * map.scale
+                tileSize,
+                tileSize
               );
             }
 
@@ -98,7 +100,8 @@
           ["game.library.fps: " + game.library.fps,
           "player.x: " + ~~player.x,
           "player.y: " + ~~player.y,
-          "game.autotile (press 1): " + game.autotile
+          "game.autotile (press 1): " + game.autotile,
+          "game.muted (press M): " + game.muted
         ]);
       },
       update: function() {
@@ -221,6 +224,29 @@
           && !this.collision(1, speed + 1)) {
           this.y += speed;
         }
+      },
+      action: function() {
+        var map = roguelike.map;
+        //Open chest
+        switch(this.facing) {
+          case "left":
+            console.log("x:", ~~(this.x - 0.1), "y:",~~this.y);
+            if(map.data[~~(this.x - 0.1)][~~this.y].entity === 5) console.log("chest opened");
+            break;
+          case "up":
+            if(map.data[~~this.x][~~(this.y - 0.1)].entity === 5) console.log("chest opened");
+            console.log("x:", ~~this.x, "y:",~~(this.y - 0.1));
+            break;
+          case "right":
+            if(map.data[~~(this.x + 1.1)][~~this.y].entity === 5) console.log("chest opened");
+            console.log("x:", ~~(this.x + 1.1), "y:",~~this.y);
+            break;
+          case "down":
+            if(map.data[~~this.x][~~this.y + 1.1].entity === 5) console.log("chest opened");
+            console.log("x:", ~~this.x, "y:",~~(this.y + 1.1));
+            break;
+        }
+
       }
     }
   };
@@ -260,13 +286,24 @@
         game.autotile = (game.autotile) ? false : true;
         break;
       case 50: // 2 toggle walls
-      game.walls = (game.walls) ? false : true;
+        game.walls = (game.walls) ? false : true;
         break;
       case 187: // + increase scale
         map.scale++;
         break;
       case 189: // - decrease scale
         map.scale--;
+        break;
+      case 32: // Space Action
+        player.action();
+        break;
+      case 77:
+        if(game.muted) {
+          game.library.audio[1].play(); game.muted = false;
+        } else {
+          game.library.audio[1].pause(); game.muted = true;
+        }
+
         break;
 
    }
