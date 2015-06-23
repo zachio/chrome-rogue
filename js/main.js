@@ -41,7 +41,7 @@ function main() {
       x, y,
       map.tileSize * map.scale,
       map.tileSize * map.scale
-    );al
+    );
   };
   var render = function() {
     var startRenderX = (~~(player.x - window.innerWidth / 2 / map.tileSize) < 0)? 0 : ~~(player.x - window.innerWidth / 2 / map.tileSize);

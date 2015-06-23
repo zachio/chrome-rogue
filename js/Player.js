@@ -88,25 +88,25 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
     //Left
     if(self.moving.left
       && !collision(-speed + width, 0)
-      && !collision(-speed + width, 1)) {
+      && !collision(-speed + width, +6*height)) {
       self.x -= speed;
     }
     //Up
     if(self.moving.up
-      && !collision(0.5 - width, -speed + 0.6)
-      && !collision(0.5 + width, -speed + 0.6)) {
+      && !collision(0.5 - width, -speed + 6*height)
+      && !collision(0.5 + width, -speed + 6*height)) {
       self.y -= speed;
     }
     //Right
     if(self.moving.right
-      && !collision(speed + 1 - width, + 0.6)
+      && !collision(speed + 1 - width, + 6*height)
       && !collision(speed + 1 - width, 1)) {
       self.x += speed;
     }
     //down
     if(self.moving.down
-      && !collision(0.5-width, speed + 1)
-      && !collision(0.5+width, speed + 1)){
+      && !collision(0.5 - width, speed + 1)
+      && !collision(0.5 + width, speed + 1)){
       self.y += speed;
     }
   };

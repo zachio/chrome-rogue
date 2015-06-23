@@ -38,8 +38,7 @@ function Map(size, tileSize, scale, min_room, max_room) {
   var room_min_size = random(min_room, max_room);
   var room_max_size = random(min_room, max_room);
   var room_count = random(min_room, max_room);
-
-
+  
   //Generate map 2d array
   for(var x = 0; x < size; x++) {
     this.data[x] = [];
