@@ -83,8 +83,8 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
   };
   this.tryMove = function() {
     var speed = speedPerSecond(self.speed);
-    var width = 0.2;
-    var height = 0.6;
+    var width = 0.0;
+    var height = 0.4;
     //Left
     if(self.moving.left
       && !collision(-speed + width, 1)
@@ -105,8 +105,8 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
     }
     //down
     if(self.moving.down
-      && !collision(0.5 - width, speed + 1)
-      && !collision(0.5 + width, speed + 1)){
+      && !collision(0.5 - width, speed + 1+height)
+      && !collision(0.5 + width, speed + 1+height)){
       self.y += speed;
     }
   };
