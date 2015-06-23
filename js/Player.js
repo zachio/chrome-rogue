@@ -83,29 +83,30 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
   };
   this.tryMove = function() {
     var speed = speedPerSecond(self.speed);
-    var offset = 0;
+    var width = 0.2;
+    var height = 0.1;
     //Left
     if(self.moving.left
-      && !collision(-speed + offset, 0)
-      && !collision(-speed + offset, 1)) {
+      && !collision(-speed + width, 0)
+      && !collision(-speed + width, 1)) {
       self.x -= speed;
     }
     //Up
     if(self.moving.up
-      && !collision(0, -speed + offset)
-      && !collision(1, -speed + offset)) {
+      && !collision(0.5 - width, -speed + 0.6)
+      && !collision(0.5 + width, -speed + 0.6)) {
       self.y -= speed;
     }
     //Right
     if(self.moving.right
-      && !collision(speed - offset, 0)
-      && !collision(speed - offset, 1)) {
+      && !collision(speed + 1 - width, + 0.6)
+      && !collision(speed + 1 - width, 1)) {
       self.x += speed;
     }
     //down
     if(self.moving.down
-      && !collision(0, speed - offset)
-      && !collision(1, speed - offset)) {
+      && !collision(0.5-width, speed + 1)
+      && !collision(0.5+width, speed + 1)){
       self.y += speed;
     }
   };

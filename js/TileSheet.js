@@ -112,8 +112,6 @@ function TileSheet(image, tilesize, cropX, cropY) {
         break;
     }
     ctx.drawImage(tile, x * tilesize, 0);
-    //ctx.fillStyle = "white";
-    //ctx.fillText(x, x * tilesize + 13, 16);
   }
   document.body.appendChild(canvas);
   return canvas;

@@ -14,9 +14,13 @@ game.load([
 
 //main is the game loop that draws and updates the game
 function main() {
+  // This plays a random song once
   game.assets.audio[~~(Math.random() * game.assets.audio.length)].play();
 
+  //Map will generate a random dungeon and has scale data
   var map = new Map(64, 32, 2, 5, 15);
+
+  //Player will set the player graphics and collision detection
   var player = new Player(game.assets.images[1], game.ctx, map.data, game.speedPerSecond);
 
   //Position player in first room
@@ -37,7 +41,7 @@ function main() {
       x, y,
       map.tileSize * map.scale,
       map.tileSize * map.scale
-    );
+    );al
   };
   var render = function() {
     var startRenderX = (~~(player.x - window.innerWidth / 2 / map.tileSize) < 0)? 0 : ~~(player.x - window.innerWidth / 2 / map.tileSize);
