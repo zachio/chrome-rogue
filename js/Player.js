@@ -75,7 +75,7 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
     playerX = ~~(self.x + x);
     playerY = ~~(self.y + y);
     ctx.fillStyle = "red";
-    ctx.fillRect(playerX,playerY, 2, 2);
+    ctx.fillRect(window.innerWidth / 2 - self.size / 2,window.innerHeight / 2 - self.size / 2, 32 * self.scale, 32 * self.scale);
     if(mapData[playerX][playerY].type === 1 && mapData[playerX][playerY].entity != 5) {
       return false;
     }

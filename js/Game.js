@@ -36,6 +36,7 @@ function Game() {
           var audio = document.createElement("audio");
           audio.setAttribute("type","audio/mpeg");
   				audio.setAttribute("src", assets[i]);
+          audio.setAttribute("loop", "true");
           self.assets.audio.push(audio);
           loadCount++;
           if(loadCount === assets.length) finish();
@@ -59,6 +60,7 @@ function Game() {
   window.onresize = function() {
     self.canvas.width = window.innerWidth;
     self.canvas.height = window.innerHeight;
+    self.ctx.imageSmoothingEnabled = false;
   };
 
   //Allows you to set the cursor type or turn it off
