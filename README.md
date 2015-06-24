@@ -1,14 +1,18 @@
-#Chrome-Rogue
+# Chrome-Rogue
 
-##About
+## About
 A topdown roguelike game!  This game is in active development.  Come join us on freenode (irc) in #bbg!
 
-##Install
+## Instructions
 
-    $git clone https://github.com/zachdyer/chrome-rogue.git
+### Install
+
+  $git clone https://github.com/zachdyer/chrome-rogue.git
 	$cd chrome-rogue
 	$nemo .
 	Open index.html
 
-##License
+### Demo
+To demo the game go to https://zachdyer.github.io/chrome-rogue/
 
+## License
