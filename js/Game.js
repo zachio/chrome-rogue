@@ -24,15 +24,7 @@ function Game() {
     var loadCount = 0;
     if(assets.length) {
       for(var i = 0; i < assets.length; i++) {
-        if(assets[i].search(".js") != -1) {
-          var script = document.createElement("script");
-          script.setAttribute("src", assets[i]);
-          script.setAttribute("type", "text/javascript");
-          self.scripts.push(script);
-          loadCount++;
-          if(loadCount === assets.length) finish();
-
-        } else if(assets[i].search(".png") != -1) {
+        if(assets[i].search(".png") != -1) {
           var image = new Image();
           image.setAttribute("src", assets[i]);
           self.assets.images.push(image);
@@ -52,10 +44,7 @@ function Game() {
     }
     var finish = function() {
       console.log("load time: ", Date.now() - loadStart, "ms");
-      //Add scripts to head
-      for(var i = 0; i < self.scripts.length; i++) {
-        document.head.appendChild(self.scripts[i]);
-      }
+
       //Styling body element
       document.body.style.margin = 0;
       document.body.style.overflow = "hidden";

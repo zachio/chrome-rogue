@@ -3,7 +3,6 @@ var game = new Game();
 
 //Game.load will load the assets and calls the main function when the assets are ready to use
 game.load([
-"js/Map.js", "js/Player.js", "js/Sprite.js", "js/TileSheet.js",
 "assets/images/TileA4.png",
 "assets/images/characterDown.png",
 "assets/images/dungeontileset.png",
