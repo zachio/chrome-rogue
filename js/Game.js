@@ -60,9 +60,8 @@ function Game() {
       document.body.style.margin = 0;
       document.body.style.overflow = "hidden";
 
-
-
       document.body.appendChild(self.canvas);
+      console.log(Map);
       window.onload = callback;
     };
   };
