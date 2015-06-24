@@ -93,7 +93,7 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
     }
     //Up
     if(self.moving.up
-      && !collision0, -speed)
+      && !collision, -speed)
       && !collision(1, -speed)) {
       self.y -= speed;
     }
