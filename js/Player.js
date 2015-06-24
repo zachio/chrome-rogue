@@ -74,8 +74,6 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
   var collision = function(x, y) {
     playerX = ~~(self.x + x);
     playerY = ~~(self.y + y);
-    ctx.fillStyle = "red";
-    ctx.fillRect(window.innerWidth / 2 - self.size / 2,window.innerHeight / 2 - self.size / 2, 32 * self.scale, 32 * self.scale);
     if(mapData[playerX][playerY].type === 1 && mapData[playerX][playerY].entity != 5) {
       return false;
     }
@@ -85,6 +83,29 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
     var speed = speedPerSecond(self.speed);
     var width = 0.0;
     var height = 0.4;
+    ctx.fillStyle = "red";
+    //Draw collsiion
+    var testX = window.innerWidth / 2 - self.size / 2;
+    var testY = window.innerHeight / 2 - self.size / 2;
+    var testScale = 64;
+    var blockSize = 4;
+    if(self.moving.left) {
+      ctx.fillRect(testX - speed, testY + testScale, blockSize,blockSize);
+      ctx.fillRect(testX - speed, testY, blockSize,blockSize);
+    }
+    if(self.moving.up) {
+      ctx.fillRect(testX + testScale, testY - speed, blockSize, blockSize);
+      ctx.fillRect(testX, testY - speed, blockSize,blockSize);
+    }
+    if(self.moving.right) {
+      ctx.fillRect(testX + speed + testScale, testY + testScale, blockSize,blockSize);
+      ctx.fillRect(testX + speed + testScale, testY, blockSize,blockSize);
+    }
+    if(self.moving.down) {
+      ctx.fillRect(testX, speed + testScale + testY, blockSize,blockSize);
+      ctx.fillRect(testX + testScale, speed + testScale + testY, blockSize,blockSize);
+    }
+
     //Left
     if(self.moving.left
       && !collision(-speed, 1)

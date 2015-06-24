@@ -14,7 +14,8 @@ game.load([
 //main is the game loop that draws and updates the game
 function main() {
   // This plays a random song once
-  game.assets.audio[~~(Math.random() * game.assets.audio.length)].play();
+  game.songSelect = ~~(Math.random() * game.assets.audio.length);
+  game.assets.audio[game.songSelect].play();
 
   //Map will generate a random dungeon and has scale data
   var map = new Map(64, 32, 2, 5, 15);
@@ -149,9 +150,9 @@ function main() {
         break;
       case 77:
         if(game.muted) {
-          game.audio[1].play(); game.muted = false;
+          game.assets.audio[game.songSelect].play(); game.muted = false;
         } else {
-          game.audio[1].pause(); game.muted = true;
+          game.assets.audio[game.songSelect].pause(); game.muted = true;
         }
         break;
 

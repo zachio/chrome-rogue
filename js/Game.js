@@ -11,12 +11,13 @@ function Game() {
   this.ctx = this.canvas.getContext("2d");
 	this.ctx.imageSmoothingEnabled = false;
 
-  //Arrays to store scripts and assets
-  this.scripts = [];
+  //Arrays to store assets
   this.assets = {
     images: [],
     audio: []
   };
+  this.songSelect = 0;
+  this.muted = false;
 
   //Game.load takes an array of assets such as scripts, images, and audio then loads them
   this.load = function(assets, callback) {
@@ -51,7 +52,6 @@ function Game() {
       document.body.style.overflow = "hidden";
 
       document.body.appendChild(self.canvas);
-      console.log(Map);
       window.onload = callback;
     };
   };
