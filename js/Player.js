@@ -81,53 +81,26 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
   };
   this.tryMove = function() {
     var speed = speedPerSecond(self.speed);
-    var width = 0.0;
-    var height = 0.4;
-    ctx.fillStyle = "red";
-    //Draw collsiion
-    var testX = window.innerWidth / 2 - self.size / 2;
-    var testY = window.innerHeight / 2 - self.size / 2;
-    var testScale = 64;
-    var blockSize = 4;
-    if(self.moving.left) {
-      ctx.fillRect(testX - speed, testY + testScale, blockSize,blockSize);
-      ctx.fillRect(testX - speed, testY, blockSize,blockSize);
-    }
-    if(self.moving.up) {
-      ctx.fillRect(testX + testScale, testY - speed, blockSize, blockSize);
-      ctx.fillRect(testX, testY - speed, blockSize,blockSize);
-    }
-    if(self.moving.right) {
-      ctx.fillRect(testX + speed + testScale, testY + testScale, blockSize,blockSize);
-      ctx.fillRect(testX + speed + testScale, testY, blockSize,blockSize);
-    }
-    if(self.moving.down) {
-      ctx.fillRect(testX, speed + testScale + testY, blockSize,blockSize);
-      ctx.fillRect(testX + testScale, speed + testScale + testY, blockSize,blockSize);
-    }
+    var modifier = -speed;
 
     //Left
     if(self.moving.left
-      && !collision(-speed, 1)
-      && !collision(-speed, 0)) {
+      && !collision(-modifier, 0.5)) {
       self.x -= speed;
     }
     //Up
     if(self.moving.up
-      && !collision(0, -speed)
-      && !collision(1, -speed)) {
+      && !collision(0.5, -modifier)) {
       self.y -= speed;
     }
     //Right
     if(self.moving.right
-      && !collision(speed + 1, 0)
-      && !collision(speed + 1, 1)) {
+      && !collision(modifier + 1, 0.5)) {
       self.x += speed;
     }
     //down
     if(self.moving.down
-      && !collision(0, speed + 1)
-      && !collision(1, speed + 1)){
+      && !collision(0.5, modifier + 1)){
       self.y += speed;
     }
   };
