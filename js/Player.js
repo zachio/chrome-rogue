@@ -72,8 +72,8 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
 
   // Collsion testing
   var collision = function(x, y) {
-    playerX = Math.round(self.x + x);
-    playerY = Math.round(self.y + y);
+    playerX = ~~(self.x + x);
+    playerY = ~~(self.y + y);
     ctx.fillStyle = "red";
     ctx.fillRect(playerX,playerY, 2, 2);
     if(mapData[playerX][playerY].type === 1 && mapData[playerX][playerY].entity != 5) {
@@ -87,26 +87,26 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
     var height = 0.4;
     //Left
     if(self.moving.left
-      && !collision(-speed + width, 1)
-      && !collision(-speed + width, height)) {
+      && !collision(-speed, 1)
+      && !collision(-speed, 0)) {
       self.x -= speed;
     }
     //Up
     if(self.moving.up
-      && !collision(0.5 - width, -speed + height)
-      && !collision(0.5 + width, -speed + height)) {
+      && !collision0, -speed)
+      && !collision(1, -speed)) {
       self.y -= speed;
     }
     //Right
     if(self.moving.right
-      && !collision(speed + 1 - width, height)
-      && !collision(speed + 1 - width, 1)) {
+      && !collision(speed + 1, 0)
+      && !collision(speed + 1, 1)) {
       self.x += speed;
     }
     //down
     if(self.moving.down
-      && !collision(0.5 - width, speed + 1-height)
-      && !collision(0.5 + width, speed + 1-height)){
+      && !collision(0, speed + 1)
+      && !collision(1, speed + 1)){
       self.y += speed;
     }
   };
