@@ -38,7 +38,7 @@ function Map(size, tileSize, scale, min_room, max_room) {
   var room_min_size = random(min_room, max_room);
   var room_max_size = random(min_room, max_room);
   var room_count = random(min_room, max_room);
-  
+
   //Generate map 2d array
   for(var x = 0; x < size; x++) {
     this.data[x] = [];
@@ -110,9 +110,9 @@ function Map(size, tileSize, scale, min_room, max_room) {
            else pointB.y++;
        }
       this.data[pointB.x][pointB.y].type = 1;
-      this.data[pointB.x + 1][pointB.y].type = 1;
-      this.data[pointB.x][pointB.y + 1].type = 1;
-      this.data[pointB.x + 1][pointB.y + 1].type = 1;
+      //this.data[pointB.x + 1][pointB.y].type = 1;
+      //this.data[pointB.x][pointB.y + 1].type = 1;
+      //this.data[pointB.x + 1][pointB.y + 1].type = 1;
     }
   }
 
@@ -145,8 +145,10 @@ function Map(size, tileSize, scale, min_room, max_room) {
   for (i = 1; i < room_count - 1; i++) {
     var room = this.rooms[i];
     if(random(0,100) > 50) {
-      var x = random(room.x, room.x + room.width);
-      var y = random(room.y, room.y + room.height);
+      //This spawns a random chest in the room at least 1 tile from cooridor
+      //entrances so the player doesn't get blocked in by a chest
+      var x = random(room.x + 1, room.x + room.width - 1);
+      var y = random(room.y + 1, room.y + room.height - 1);
       console.log("x: ", x, "y: ", y);
       this.data[x][y].entity = 5;
     }

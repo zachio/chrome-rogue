@@ -1,3 +1,5 @@
+'use strict'
+
 //Game will prepare a canvas to draw on and set it to full screen
 var game = new Game();
 

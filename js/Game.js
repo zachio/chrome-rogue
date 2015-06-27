@@ -1,3 +1,5 @@
+'use strict'
+
 function Game() {
   //self supports the use of "this" inside methods.
   var self = this;
@@ -16,8 +18,6 @@ function Game() {
     images: [],
     audio: []
   };
-  this.songSelect = 0;
-  this.muted = false;
 
   //Game.load takes an array of assets such as scripts, images, and audio then loads them
   this.load = function(assets, callback) {
