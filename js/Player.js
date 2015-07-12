@@ -1,4 +1,4 @@
-function Player(walkingSprite, ctx, mapData, speedPerSecond) {
+function Player(walkingSprite, ctx, map, speedPerSecond) {
   var self = this;
   var timeline = Date.now();
   self.x = 0;
@@ -13,6 +13,7 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
   this.speed = 4;
   this.size = 32;
   this.scale = 2;
+  this.level = 0;
   this.sprite = {
     walking: walkingSprite
   };
@@ -74,7 +75,7 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
   var collision = function(x, y) {
     playerX = ~~(self.x + x);
     playerY = ~~(self.y + y);
-    if(mapData[playerX][playerY].type === 1 && mapData[playerX][playerY].entity != 5) {
+    if(map.data[playerX][playerY].type === 1 && map.data[playerX][playerY].entity != 5) {
       return false;
     }
     return true;
@@ -105,25 +106,41 @@ function Player(walkingSprite, ctx, mapData, speedPerSecond) {
     }
   };
 
+  this.hasBeatStage = function () {
+    if(map.data[Math.round(self.x)][Math.round(self.y)].entity === 4 ) {
+      console.log("You win!");
+      //Create new map
+      map.generate(64, 32, 2, 5, 15);
+      //Position player in first room
+      var room = map.rooms[0];
+      self.position(room.x + room.width / 2 - 0.5, room.y + room.height / 2 - 0.5);
+    }
+  }
+
   //Player action
   this.action = function() {
     //Open chest
     switch(self.facing) {
       case "left":
         console.log("x:", ~~(self.x - 0.1), "y:",~~self.y);
-        if(mapData[~~(self.x - 0.1)][~~self.y].entity === 5 || mapData[~~(self.x - 0.1)][~~self.y + 1].entity === 5) console.log("chest opened");
+        if(map.data[~~(self.x - 0.1)][~~self.y].entity === 5 || map.data[~~(self.x - 0.1)][~~self.y + 1].entity === 5) {
+          console.log("chest opened");
+        }
         break;
       case "up":
-        if(mapData[~~self.x][~~(self.y - 0.1)].entity === 5 || mapData[~~self.x + 1][~~(self.y - 0.1)].entity === 5) console.log("chest opened");
-        console.log("x:", ~~self.x, "y:",~~(self.y - 0.1));
+        if(map.data[~~self.x][~~(self.y - 0.1)].entity === 5 || map.data[~~self.x + 1][~~(self.y - 0.1)].entity === 5) {
+          console.log("chest opened");
+        }
         break;
       case "right":
-        if(mapData[~~(self.x + 1.1)][~~self.y].entity === 5 || mapData[~~(self.x + 1.1)][~~self.y + 1].entity === 5) console.log("chest opened");
-        console.log("x:", ~~(self.x + 1.1), "y:",~~self.y);
+        if(map.data[~~(self.x + 1.1)][~~self.y].entity === 5 || map.data[~~(self.x + 1.1)][~~self.y + 1].entity === 5) {
+          console.log("chest opened");
+        };
         break;
       case "down":
-        if(mapData[~~self.x][~~(self.y + 1.1)].entity === 5 || mapData[~~self.x + 1][~~(self.y + 1.1)].entity === 5) console.log("chest opened");
-        console.log("x:", ~~self.x, "y:",~~(self.y + 1.1));
+        if(map.data[~~self.x][~~(self.y + 1.1)].entity === 5 || map.data[~~self.x + 1][~~(self.y + 1.1)].entity === 5) {
+          console.log("chest opened");
+        }
         break;
     }
   };

@@ -23,7 +23,7 @@ function main() {
   var map = new Map(64, 32, 2, 5, 15);
 
   //Player will set the player graphics and collision detection
-  var player = new Player(game.assets.images[1], game.ctx, map.data, game.speedPerSecond);
+  var player = new Player(game.assets.images[1], game.ctx, map, game.speedPerSecond);
 
   //Position player in first room
   var room = map.rooms[0];
@@ -98,6 +98,8 @@ function main() {
 
   var update = function() {
     player.tryMove();
+
+    player.hasBeatStage();
   };
 
   var tick = function() {
