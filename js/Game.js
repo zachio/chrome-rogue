@@ -37,6 +37,7 @@ function Game() {
             //Handle loading image
             if(image.src.search("loading.gif") != -1) {
               document.body.style.background = "rgb(25, 31, 38)";
+              self.canvas.style.background = "rgb(25, 31, 38)";
               loadingImg = image;
               loadingImg.style.margin = "0 auto";
               loadingImg.style.display = "block";
