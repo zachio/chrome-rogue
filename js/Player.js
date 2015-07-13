@@ -106,8 +106,9 @@ function Player(walkingSprite, ctx, map, speedPerSecond) {
     }
   };
 
-  this.hasBeatStage = function () {
+  this.hasBeatStage = function (sound) {
     if(map.data[Math.round(self.x)][Math.round(self.y)].entity === 4 ) {
+      sound.play();
       console.log("You win!");
       //Create new map
       map.generate(64, 32, 2, 5, 15);

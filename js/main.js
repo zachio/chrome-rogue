@@ -11,13 +11,23 @@ game.load([
 "assets/images/character-face.png",
 "assets/images/chest.png",
 "assets/audio/dungeon.mp3",
-"assets/audio/little_miss_sunshine.mp3"], main);
+"assets/audio/little_miss_sunshine.mp3",
+"assets/audio/steps.mp3"], main);
 
 //main is the game loop that draws and updates the game
 function main() {
+  var songs = [
+    game.assets.audio[0],
+    game.assets.audio[1]
+  ];
+  var sounds = [
+    game.assets.audio[2]
+  ];
+  sounds[0].loop = false;
+
   // This plays a random song once
-  game.songSelect = ~~(Math.random() * game.assets.audio.length);
-  game.assets.audio[game.songSelect].play();
+  game.songSelect = ~~(Math.random() * songs.length);
+  songs[game.songSelect].play();
 
   //Map will generate a random dungeon and has scale data
   var map = new Map(64, 32, 2, 5, 15);
@@ -98,8 +108,11 @@ function main() {
 
   var update = function() {
     player.tryMove();
-
-    player.hasBeatStage();
+    player.hasBeatStage(sounds[0]);
+    if(sounds[0].currentTime > 1.25) {
+      sounds[0].pause();
+      sounds[0].load();
+    }
   };
 
   var tick = function() {
