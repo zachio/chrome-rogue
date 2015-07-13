@@ -6,6 +6,8 @@ function Map(size, tileSize, scale, min_room, max_room) {
     var self = this;
     this.rooms = [];
     this.data = [];
+    this.startX = 0;
+    this.startY = 0;
     var random = function(min, max) {
       return ~~(Math.random() * (max - min)) + min;
     };
@@ -117,9 +119,9 @@ function Map(size, tileSize, scale, min_room, max_room) {
     }
     //Place start
     var room = this.rooms[0];
-    var x = random(room.x, room.x + room.width);
-    var y = random(room.y, room.y + room.height);
-    this.data[x][y].entity = 3;
+    this.startX = random(room.x, room.x + room.width);
+    this.startY = random(room.y, room.y + room.height);
+    this.data[this.startX][this.startY].entity = 3;
 
     //Place end
     var room = this.rooms[this.rooms.length - 1];

@@ -27,7 +27,7 @@ function main() {
 
   //Position player in first room
   var room = map.rooms[0];
-  player.position(room.x + room.width / 2 - 0.5, room.y + room.height / 2 - 0.5);
+  player.position(map.startX, map.startY);
 
   //Graphical
   var sprite = {

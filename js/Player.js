@@ -112,8 +112,7 @@ function Player(walkingSprite, ctx, map, speedPerSecond) {
       //Create new map
       map.generate(64, 32, 2, 5, 15);
       //Position player in first room
-      var room = map.rooms[0];
-      self.position(room.x + room.width / 2 - 0.5, room.y + room.height / 2 - 0.5);
+      self.position(map.startX, map.startY);
     }
   }
 
