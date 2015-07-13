@@ -3,6 +3,9 @@
 function Game() {
   //self supports the use of "this" inside methods.
   var self = this;
+  var loadingImg = new Image();
+
+
 
   //Exporting the canvas and default settings
   this.canvas = document.createElement("canvas");
@@ -25,12 +28,20 @@ function Game() {
     var loadCount = 0;
     if(assets.length) {
       for(var i = 0; i < assets.length; i++) {
-        if(assets[i].search(".png") != -1) {
+        if(assets[i].search(".png") != -1 || assets[i].search(".gif") != -1) {
           var image = new Image();
           image.setAttribute("src", assets[i]);
           self.assets.images.push(image);
           image.onload = function() {
             loadCount++;
+            //Handle loading image
+            if(image.src.search("loading.gif") != -1) {
+              document.body.style.background = "rgb(25, 31, 38)";
+              loadingImg = image;
+              loadingImg.style.margin = "0 auto";
+              loadingImg.style.display = "block";
+              document.body.appendChild(loadingImg);
+            }
             if(loadCount === assets.length) finish();
           };
         } else if(assets[i].search(".mp3") != -1) {
@@ -46,11 +57,10 @@ function Game() {
     }
     var finish = function() {
       console.log("load time: ", Date.now() - loadStart, "ms");
-
       //Styling body element
       document.body.style.margin = 0;
       document.body.style.overflow = "hidden";
-
+      loadingImg.style.display = "none";
       document.body.appendChild(self.canvas);
       window.onload = callback;
     };

@@ -10,6 +10,7 @@ game.load([
 "assets/images/dungeontileset.png",
 "assets/images/character-face.png",
 "assets/images/chest.png",
+"assets/images/loading.gif",
 "assets/audio/dungeon.mp3",
 "assets/audio/little_miss_sunshine.mp3",
 "assets/audio/steps.mp3"], main);
