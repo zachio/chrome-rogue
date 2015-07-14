@@ -132,6 +132,10 @@ function Game() {
     }
   };
 
+  this.random = function(min, max) {
+    return ~~(Math.random() * (max - min)) + min;
+  };
+
   //The main game loop
   var clearScreen = function(){
 		self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);

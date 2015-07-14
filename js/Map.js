@@ -18,7 +18,6 @@ function Map(size, tileSize, scale, min_room, max_room) {
           if (!((room.x + room.width < check.x) || (room.x > check.x + check.width) || (room.y + room.height < check.y) || (room.y > check.y + check.height)))
               return true;
       }
-
       return false;
     };
 
@@ -138,17 +137,6 @@ function Map(size, tileSize, scale, min_room, max_room) {
         var x = random(room.x + 1, room.x + room.width - 1);
         var y = random(room.y + 1, room.y + room.height - 1);
         this.data[x][y].entity = 5;
-      }
-    }
-
-    //Place rats
-    for (i = 1; i < room_count - 1; i++) {
-      var room = this.rooms[i];
-      if(random(0,100) > 25) {
-        //This spawns a random rat in the room at least 1 tile from cooridor
-        var x = random(room.x + 1, room.x + room.width);
-        var y = random(room.y + 1, room.y + room.height);
-        if(this.data[x][y].entity != 5) this.data[x][y].entity = 6;
       }
     }
 
