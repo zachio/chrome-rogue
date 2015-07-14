@@ -11,6 +11,7 @@ game.load([
 "assets/images/character-face.png",
 "assets/images/chest.png",
 "assets/images/loading.gif",
+"assets/images/rat.png",
 "assets/audio/dungeon.mp3",
 "assets/audio/little_miss_sunshine.mp3",
 "assets/audio/steps.mp3"], main);
@@ -46,7 +47,8 @@ function main() {
     wall: new Sprite(game.assets.images[0], 0.5, 13.5),
     start: new Sprite(game.assets.images[2], 13, 0),
     end: new Sprite(game.assets.images[2], 5, 15),
-    chest: new Sprite(game.assets.images[4], 6, 4)
+    chest: new Sprite(game.assets.images[4], 6, 4),
+    rat: new Sprite(game.assets.images[6], 4, 0)
   };
   var draw = function(sprite, x, y) {
     game.ctx.drawImage(
@@ -93,6 +95,10 @@ function main() {
             break;
           case 5:
             draw(sprite.chest, drawX, drawY);
+            break;
+          case 6:
+            draw(sprite.rat, drawX, drawY);
+            break;
         }
 
       }
