@@ -106,7 +106,7 @@ function Player(walkingSprite, ctx, map, speedPerSecond) {
     }
   };
 
-  this.hasBeatStage = function (sound) {
+  this.hasBeatStage = function (sound, enemy) {
     if(map.data[Math.round(self.x)][Math.round(self.y)].entity === 4 ) {
       sound.play();
       console.log("You win!");
@@ -114,6 +114,8 @@ function Player(walkingSprite, ctx, map, speedPerSecond) {
       map.generate(64, 32, 2, 5, 15);
       //Position player in first room
       self.position(map.startX, map.startY);
+      enemy.enemies = [];
+      enemy.generate(map);
     }
   }
 
