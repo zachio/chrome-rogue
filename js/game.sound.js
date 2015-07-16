@@ -18,10 +18,13 @@ game.sound = {
       game.assets.audio[2].load();
     }
     //Sprint
-    if(game.player.speed === 8 && Date.now() - this.timeline > 200) {
-      this.effects.step.load();
-      this.effects.step.play();
-      this.timeline = Date.now();
+    if(game.player.sprinting
+      && Date.now() - this.timeline > 200) {
+      if(game.player.moving.left || game.player.moving.up || game.player.moving.right || game.player.moving.down) {
+        this.effects.step.load();
+        this.effects.step.play();
+        this.timeline = Date.now();
+      }
     }
   }
 };

@@ -53,7 +53,6 @@ window.onkeydown = function (event) {
       break;
     case 16: // Shift to Sprint
       game.player.speed = 8;
-      game.assets.audio[3].play();
       game.player.sprinting = true;
       break;
     }
