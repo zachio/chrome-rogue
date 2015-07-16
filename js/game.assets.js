@@ -3,11 +3,11 @@ game.assets = {
   images: [],
   audio: [],
   sprite: {},
-  load: function(assets, callback, loadGIF) {
+  loadingImg: new Image(),
+  load: function(assets, callback) {
     var loadStart = Date.now();
     var loadCount = 0;
     var self = this;
-    var loadingImg = new Image();
     if(assets.length) {
       for(var i = 0; i < assets.length; i++) {
         if(assets[i].search(".png") != -1 || assets[i].search(".gif") != -1) {
@@ -17,13 +17,13 @@ game.assets = {
           image.onload = function() {
             loadCount++;
             //Handle loading image
-            if(image.src.search(loadGIF) != -1) {
+            if(this.src.search("loading.gif") != -1) {
               document.body.style.background = "rgb(25, 31, 38)";
               game.render.canvas.style.background = "rgb(25, 31, 38)";
-              loadingImg = image;
-              loadingImg.style.margin = "0 auto";
-              loadingImg.style.display = "block";
-              document.body.appendChild(loadingImg);
+              self.loadingImg = this;
+              self.loadingImg.style.margin = "0 auto";
+              self.loadingImg.style.display = "block";
+              document.body.appendChild(self.loadingImg);
             }
             if(loadCount === assets.length) finish(self.sprite);
           };
@@ -199,7 +199,7 @@ game.assets = {
             chest: new Sprite(game.assets.images[4], 6, 4),
             rat: new Sprite(game.assets.images[6], 4, 0)
         };
-        loadingImg.style.display = "none";
+        self.loadingImg.style.display = "none";
         document.body.appendChild(game.render.canvas);
         callback();
       }
