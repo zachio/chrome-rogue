@@ -109,22 +109,22 @@ game.player = {
 
     //Left
     if(this.moving.left
-      && !game.collision.detect(this,-modifier, 0.5)) {
+      && !game.collision.detect(this,-modifier, 0.9)) {
       this.x -= speed;
     }
     //Up
     if(this.moving.up
-      && !game.collision.detect(this, 0.5, -modifier)) {
+      && !game.collision.detect(this, 0.5, -modifier + 0.7)) {
       this.y -= speed;
     }
     //Right
     if(this.moving.right
-      && !game.collision.detect(this, modifier + 1, 0.5)) {
+      && !game.collision.detect(this, modifier + 1, 0.9)) {
       this.x += speed;
     }
     //down
     if(this.moving.down
-      && !game.collision.detect(this,0.5, modifier + 1)){
+      && !game.collision.detect(this,0.5, modifier + 1.1)){
       this.y += speed;
     }
   },
