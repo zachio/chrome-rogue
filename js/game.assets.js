@@ -7,6 +7,7 @@ game.assets = {
     var loadStart = Date.now();
     var loadCount = 0;
     var self = this;
+    var loadingImg = new Image();
     if(assets.length) {
       for(var i = 0; i < assets.length; i++) {
         if(assets[i].search(".png") != -1 || assets[i].search(".gif") != -1) {
