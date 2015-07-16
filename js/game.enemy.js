@@ -1,13 +1,13 @@
 game.enemy = {
   enemies: [],
-  Rat: function(x, y) {
-    this.x = x;
-    this.y = y;
-    this.startX = x;
-    this.speed = 0.1;
-    this.direction = "right";
-  },
   generate: function(map) {
+    function Rat(x, y) {
+      this.x = x;
+      this.y = y;
+      this.startX = x;
+      this.speed = 6;
+      this.direction = "right";
+    }
     //Place rats
     for(var i = 0; i < game.map.rooms.length; i++) {
       var room = game.map.rooms[i];
@@ -16,9 +16,7 @@ game.enemy = {
         //This spawns a random rat in the room
         var x = game.math.random(room.x + 1, room.x + room.width);
         var y = game.math.random(room.y + 1, room.y + room.height);
-        var rat = new this.Rat(x,y);
-        this.enemies.push(
-          {x: x, y: y, startX: x, speed: 0.1, direction: "right"});
+        this.enemies.push(new Rat(x, y));
       }
     }
   },
@@ -48,7 +46,7 @@ game.enemy = {
         enemy.speed = Math.abs(enemy.speed);
         enemy.direction = "right";
       }
-      enemy.x += enemy.speed;
+      enemy.x += game.movement.speedPerSecond(enemy.speed, game.time.tickDuration);
     }
   }
 };

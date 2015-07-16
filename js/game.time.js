@@ -1,5 +1,5 @@
 game.time = {
-  lastTick: 0,
+  lastTick: Date.now(),
 	tickDuration: 17,
 	fpsUpdate: Date.now(), //This sets a time stamp every second to update the Game.fps
 	get: function(currentTime, lastTime) {

@@ -19,17 +19,25 @@ var game = {
     }
   },
   init: function() {
+    var loadingImg = this.assets.loadingImg;
+    loadingImg.src = "assets/images/loading.gif";
+    loadingImg.onload = function() {
+      document.body.style.background = "rgb(25, 31, 38)";
+      game.render.canvas.style.background = "rgb(25, 31, 38)";
+      this.style.margin = "0 auto";
+      this.style.display = "block";
+      document.body.appendChild(this);
+    };
     this.assets.load([
     "assets/images/TileA4.png",
     "assets/images/characterDown.png",
     "assets/images/dungeontileset.png",
     "assets/images/character-face.png",
     "assets/images/chest.png",
-    "assets/images/loading.gif",
     "assets/images/rat.png",
     "assets/audio/dungeon.mp3",
     "assets/audio/little_miss_sunshine.mp3",
-    "assets/audio/steps.mp3"], this.loop, "loading.gif");
+    "assets/audio/steps.mp3"], this.loop);
     this.render.init();
     this.map.generate();
     this.enemy.generate();
@@ -50,9 +58,6 @@ var game = {
     this.player.tryMove();
     this.player.hasBeatStage(this.assets.audio[2], this.enemy);
     this.enemy.update();
-    if(this.assets.audio[2].currentTime > 1.25) {
-      this.assets.audio[2].pause();
-      this.assets.audio[2].load();
-    }
+    this.sound.edit();
   }
 };

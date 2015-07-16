@@ -16,15 +16,6 @@ game.assets = {
           this.images.push(image);
           image.onload = function() {
             loadCount++;
-            //Handle loading image
-            if(this.src.search("loading.gif") != -1) {
-              document.body.style.background = "rgb(25, 31, 38)";
-              game.render.canvas.style.background = "rgb(25, 31, 38)";
-              self.loadingImg = this;
-              self.loadingImg.style.margin = "0 auto";
-              self.loadingImg.style.display = "block";
-              document.body.appendChild(self.loadingImg);
-            }
             if(loadCount === assets.length) finish(self.sprite);
           };
         } else if(assets[i].search(".mp3") != -1) {
@@ -197,7 +188,7 @@ game.assets = {
             start: new Sprite(game.assets.images[2], 13, 0),
             end: new Sprite(game.assets.images[2], 5, 15),
             chest: new Sprite(game.assets.images[4], 6, 4),
-            rat: new Sprite(game.assets.images[6], 4, 0)
+            rat: new Sprite(game.assets.images[5], 4, 0)
         };
         self.loadingImg.style.display = "none";
         document.body.appendChild(game.render.canvas);

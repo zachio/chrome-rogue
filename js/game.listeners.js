@@ -53,6 +53,9 @@ window.onkeydown = function (event) {
         game.assets.audio[game.music.songSelect].pause(); game.music.muted = true;
       }
       break;
+    case 16: // Shift to Sprint
+      game.player.speed = 8;
+      break;
     }
 };
 window.onkeyup = function (event) {
@@ -76,6 +79,9 @@ window.onkeyup = function (event) {
     case 40:
     case 83: // s
       game.player.moving.down = false;
+      break;
+    case 16: //Shift stop sprinting
+      game.player.speed = 4;
       break;
   }
   if(game.player.moving.left) game.player.facing = "left";

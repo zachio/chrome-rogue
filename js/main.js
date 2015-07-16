@@ -9,5 +9,6 @@ game.require([
   "music",
   "player",
   "render",
+  "sound",
   "time"
 ]);
