@@ -124,7 +124,7 @@ game.player = {
     }
     //down
     if(this.moving.down
-      && !game.collision.detect(this,0.5, modifier + 1.1)){
+      && !game.collision.detect(this,0.5, modifier + 1.3)){
       this.y += speed;
     }
   },
