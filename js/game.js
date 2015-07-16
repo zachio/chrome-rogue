@@ -29,7 +29,7 @@ var game = {
     "assets/images/rat.png",
     "assets/audio/dungeon.mp3",
     "assets/audio/little_miss_sunshine.mp3",
-    "assets/audio/steps.mp3"], this.loop);
+    "assets/audio/steps.mp3"], this.loop, "loading.gif");
     this.render.init();
     this.map.generate();
     this.enemy.generate();
