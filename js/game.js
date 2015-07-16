@@ -34,7 +34,7 @@ var game = {
     this.map.generate();
     this.enemy.generate();
     this.player.position(this.map.startX, this.map.startY);
-    //this.music.play();
+    this.music.play();
   },
   tick: function() {
     game.render.clearScreen();
