@@ -37,8 +37,10 @@ var game = {
     "assets/images/rat.png",
     "assets/audio/dungeon.mp3",
     "assets/audio/little_miss_sunshine.mp3",
-    "assets/audio/steps.mp3"], this.loop);
+    "assets/audio/steps.mp3",
+    "assets/audio/step.mp3"], this.loop);
     this.render.init();
+    this.sound.init();
     this.map.generate();
     this.enemy.generate();
     this.player.position(this.map.startX, this.map.startY);
@@ -58,6 +60,6 @@ var game = {
     this.player.tryMove();
     this.player.hasBeatStage(this.assets.audio[2], this.enemy);
     this.enemy.update();
-    this.sound.edit();
+    this.sound.update();
   }
 };

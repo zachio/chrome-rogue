@@ -13,6 +13,7 @@ game.player = {
   image: false,
   //timeline is used for animating the player
   timeline: Date.now(),
+  sprinting: false,
   position: function(x, y) {
     this.x = x;
     this.y = y;
@@ -39,6 +40,20 @@ game.player = {
         return 1 * 32;
       }
     };
+    var sprintAnimation = function () {
+      if(playhead < 125) {
+        return 1 * 32;
+      } else if(playhead >= 125 && playhead <= 250) {
+        return 0 * 32;
+      } else if(playhead > 250 && playhead <= 375) {
+        return 1 * 32;
+      } else if(playhead > 375 && playhead <= 500) {
+        return 2 * 32;
+      } else {
+        self.timeline = Date.now();
+        return 1 * 32;
+      }
+    };
     switch(this.facing) {
       case "left":
         cropX = (this.moving.left) ? walkAnimation() : 1 * 32;
@@ -56,6 +71,26 @@ game.player = {
         cropX = (this.moving.down) ? walkAnimation() : 1 * 32;
         cropY = 4 * 32;
         break;
+    }
+    if(this.sprinting) {
+      switch(this.facing) {
+        case "left":
+          cropX = (this.moving.left) ? sprintAnimation() : 1 * 32;
+          cropY = 5 * 32;
+          break;
+        case "up":
+          cropX = (this.moving.up) ? sprintAnimation() : 1 * 32;
+          cropY = 7 * 32;
+          break;
+        case "right":
+          cropX = (this.moving.right) ? sprintAnimation() : 1 * 32;
+          cropY = 6 * 32;
+          break;
+        case "down":
+          cropX = (this.moving.down) ? sprintAnimation() : 1 * 32;
+          cropY = 4 * 32;
+          break;
+      }
     }
     game.render.ctx.drawImage(
       game.assets.images[1],

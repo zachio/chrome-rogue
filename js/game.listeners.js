@@ -32,10 +32,8 @@ window.onkeydown = function (event) {
       break;
     //options
     case 49: // 1
-
       break;
     case 50: // 2
-
       break;
     case 187: // + increase scale
       game.render.scale++;
@@ -55,6 +53,8 @@ window.onkeydown = function (event) {
       break;
     case 16: // Shift to Sprint
       game.player.speed = 8;
+      game.assets.audio[3].play();
+      game.player.sprinting = true;
       break;
     }
 };
@@ -82,6 +82,7 @@ window.onkeyup = function (event) {
       break;
     case 16: //Shift stop sprinting
       game.player.speed = 4;
+      game.player.sprinting = false;
       break;
   }
   if(game.player.moving.left) game.player.facing = "left";
