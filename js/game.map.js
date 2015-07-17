@@ -77,8 +77,6 @@ game.map = {
       }
     }
 
-    console.log("roomCount:", this.roomCount);
-    console.table(this.rooms);
     //Build Cooridors
     for(var i = 0; i < this.roomCount; i++) {
       var roomA = this.rooms[i];

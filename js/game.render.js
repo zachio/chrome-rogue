@@ -40,6 +40,7 @@ game.render = {
     );
   },
   frame: function() {
+    //Draw Map
     var startRenderX = (~~(game.player.x - window.innerWidth / 2 / game.map.tileSize) < 0)? 0 : ~~(game.player.x - window.innerWidth / 2 / game.map.tileSize);
     var endRenderX = (~~(game.player.x + window.innerWidth / 2 / game.map.tileSize + 2) > game.map.size)? game.map.size : ~~(game.player.x + window.innerWidth / 2 / game.map.tileSize + 2);
     var startRenderY = (~~(game.player.y - window.innerWidth / 2 / game.map.tileSize) < 0) ? 0 : ~~(game.player.y - window.innerWidth / 2 / game.map.tileSize);
@@ -86,7 +87,7 @@ game.render = {
       }
     }
     game.enemy.render();
-    game.player.render(this.scale);
+    game.player.render();
     game.render.messageBox(20, 20, 200,
       ["game.fps: " + game.render.fps,
       "game.player.x: " + ~~game.player.x,

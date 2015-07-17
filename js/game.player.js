@@ -13,6 +13,7 @@ game.player = {
   image: false,
   //timeline is used for animating the player
   timeline: Date.now(),
+  attackTime: Date.now(),
   sprinting: false,
   init: function() {
     this.position(game.map.startX, game.map.startY);
@@ -21,7 +22,7 @@ game.player = {
     this.x = x;
     this.y = y;
   },
-  render: function(scale) {
+  render: function() {
     var centerX = window.innerWidth / 2 - this.size / 2;
     var centerY = window.innerHeight / 2 - this.size / 2;
     var cropX = 1 * 32;
@@ -57,6 +58,7 @@ game.player = {
         return 1 * 32;
       }
     };
+    //Walking Animation
     switch(this.facing) {
       case "left":
         cropX = (this.moving.left) ? walkAnimation() : 1 * 32;
@@ -75,6 +77,7 @@ game.player = {
         cropY = 4 * 32;
         break;
     }
+    //Sprinting Animation
     if(this.sprinting) {
       switch(this.facing) {
         case "left":
@@ -95,14 +98,65 @@ game.player = {
           break;
       }
     }
+
+
+    //Attacking Animation
+    var attack = {
+      cropX: 0,
+      cropY: 0,
+      cropSize: 192,
+      size: 96 * game.render.scale,
+      offsetX: 0,
+      offsetY: 0
+    }
+    if(this.attacking){
+      cropX = 0 * 32;
+      var timeline = Date.now() - this.attackTime;
+      if(timeline <= 25) {
+        attack.cropX = 0;
+      } else if (timeline >= 25 && timeline <= 50 ) {
+        attack.cropX = attack.cropSize;
+      } else if (timeline >= 50 && timeline <= 75 ) {
+        attack.cropX = attack.cropSize * 2;
+      } else if (timeline >= 75 && timeline <= 100 ) {
+        attack.cropX = attack.cropSize * 3;
+      } else if (timeline >= 125 && timeline <= 150 ) {
+        attack.cropX = attack.cropSize * 4;
+      }
+      switch(this.facing) {
+        case "left":
+          attack.offsetX = -attack.size * 0.25;
+          break;
+        case "up":
+          attack.offsetY = -attack.size * 0.3;
+          break;
+        case "right":
+          attack.offsetX = attack.size * 0.1;
+          break;
+        case "down":
+          attack.offsetY = attack.size * 0.1;
+          break;
+      }
+      game.render.ctx.drawImage(
+        game.assets.images[6],
+        attack.cropX, attack.cropY,
+        attack.cropSize, attack.cropSize,
+        centerX - attack.size * 0.3 + attack.offsetX, centerY - attack.size * 0.3 + attack.offsetY,
+        attack.size, attack.size
+      );
+      if(Date.now() - this.attackTime > 150) {
+        this.attacking = false;
+      }
+    }
+    //Player animation
     game.render.ctx.drawImage(
       game.assets.images[1],
       cropX, cropY,
       32,
       32 - 1, //Minus one because it was clipping the below graphics
       centerX, centerY,
-      this.size * scale,
-      this.size * scale
+      this.size * game.render.scale,
+      this.size * game.render.scale
     );
   },
 
@@ -150,27 +204,41 @@ game.player = {
     //Open chest
     switch(this.facing) {
       case "left":
-        console.log("x:", ~~(this.x - 0.1), "y:",~~this.y);
         if(game.map.data[~~(this.x - 0.1)][~~this.y].entity === 5 || game.map.data[~~(this.x - 0.1)][~~this.y + 1].entity === 5) {
           console.log("chest opened");
+        } else {
+          this.attack();
         }
         break;
       case "up":
         if(game.map.data[~~this.x][~~(this.y - 0.1)].entity === 5 || game.map.data[~~this.x + 1][~~(this.y - 0.1)].entity === 5) {
           console.log("chest opened");
+        } else {
+          this.attack();
         }
         break;
       case "right":
         if(game.map.data[~~(this.x + 1.1)][~~this.y].entity === 5 || game.map.data[~~(this.x + 1.1)][~~this.y + 1].entity === 5) {
           console.log("chest opened");
-        };
+        } else {
+          this.attack();
+        }
         break;
       case "down":
         if(game.map.data[~~this.x][~~(this.y + 1.1)].entity === 5 || game.map.data[~~this.x + 1][~~(this.y + 1.1)].entity === 5) {
           console.log("chest opened");
+        } else {
+          this.attack();
         }
         break;
     }
+  },
+  attacking: false,
+  attack: function() {
+    game.sound.effects.swing.load();
+    game.sound.effects.swing.play();
+    this.attacking = true;
+    this.attackTime = Date.now();
   }
 
 };

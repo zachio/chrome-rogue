@@ -1,5 +1,5 @@
 game.math = {
-  seed: 10,
+  seed: Math.random(),
   random: function(min, max) {
 
     max = max || 1;
