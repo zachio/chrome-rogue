@@ -1,4 +1,11 @@
 game.player = {
+  attacking: false,
+  attack: function() {
+    game.sound.effects.swing.load();
+    game.sound.effects.swing.play();
+    this.attacking = true;
+    this.attackTime = Date.now();
+  },
   x: 0,
   y: 0,
   moving: {
@@ -120,30 +127,42 @@ game.player = {
         attack.cropX = attack.cropSize * 2;
       } else if (timeline >= 75 && timeline <= 100 ) {
         attack.cropX = attack.cropSize * 3;
-      } else if (timeline >= 125 && timeline <= 150 ) {
+      } else if (timeline >= 125 ) {
         attack.cropX = attack.cropSize * 4;
       }
+      game.render.ctx.save();
       switch(this.facing) {
         case "left":
-          attack.offsetX = -attack.size * 0.25;
+          game.render.ctx.translate(
+            centerX,
+            centerY - attack.size / 2);
+            game.render.ctx.rotate(0.75);
           break;
         case "up":
-          attack.offsetY = -attack.size * 0.3;
+          game.render.ctx.translate(
+            centerX + attack.size * 0.9,
+            centerY);
+          game.render.ctx.rotate(2.333);
           break;
         case "right":
-          attack.offsetX = attack.size * 0.1;
-          break;
-        case "down":
-          attack.offsetY = attack.size * 0.1;
+          game.render.ctx.translate(
+            centerX + attack.size * 0.4,
+            centerY - attack.size / 2);
+            game.render.ctx.rotate(0.75);
           break;
       }
-      game.render.ctx.drawImage(
-        game.assets.images[6],
-        attack.cropX, attack.cropY,
-        attack.cropSize, attack.cropSize,
-        centerX - attack.size * 0.3 + attack.offsetX, centerY - attack.size * 0.3 + attack.offsetY,
-        attack.size, attack.size
-      );
+
+      if(this.facing != "down") {
+        game.render.ctx.drawImage(
+          game.assets.images[6],
+          attack.cropX, attack.cropY,
+          attack.cropSize, attack.cropSize,
+          0,
+          0,
+          attack.size, attack.size
+        );
+      }
+      game.render.ctx.restore();
       if(Date.now() - this.attackTime > 150) {
         this.attacking = false;
       }
@@ -158,6 +177,25 @@ game.player = {
       this.size * game.render.scale,
       this.size * game.render.scale
     );
+
+    //Attack animation in front of player
+
+    if(this.attacking && this.facing === "down") {
+      game.render.ctx.save();
+      game.render.ctx.translate(
+        centerX + attack.size * 0.9,
+        centerY + attack.size * 0.5);
+      game.render.ctx.rotate(2.333);
+      game.render.ctx.drawImage(
+        game.assets.images[6],
+        attack.cropX, attack.cropY,
+        attack.cropSize, attack.cropSize,
+        0,
+        0,
+        attack.size, attack.size
+      );
+      game.render.ctx.restore();
+    }
   },
 
   tryMove: function() {
@@ -232,13 +270,6 @@ game.player = {
         }
         break;
     }
-  },
-  attacking: false,
-  attack: function() {
-    game.sound.effects.swing.load();
-    game.sound.effects.swing.play();
-    this.attacking = true;
-    this.attackTime = Date.now();
   }
 
 };
