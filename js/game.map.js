@@ -77,6 +77,8 @@ game.map = {
       }
     }
 
+    console.log("roomCount:", this.roomCount);
+    console.table(this.rooms);
     //Build Cooridors
     for(var i = 0; i < this.roomCount; i++) {
       var roomA = this.rooms[i];
@@ -86,13 +88,14 @@ game.map = {
         var roomB = this.rooms[0];
       }
       pointA = {
-        x: game.math.random(roomA.x, roomA.x + roomA.w),
-        y: game.math.random(roomA.y, roomA.y + roomA.h)
+        x: game.math.random(roomA.x, roomA.x + roomA.width),
+        y: game.math.random(roomA.y, roomA.y + roomA.height)
       };
       pointB = {
-        x: game.math.random(roomB.x, roomB.x + roomB.w),
-        y: game.math.random(roomB.y, roomB.y + roomB.h)
+        x: game.math.random(roomB.x, roomB.x + roomB.width),
+        y: game.math.random(roomB.y, roomB.y + roomB.height)
       };
+
       while((pointB.x != pointA.x) || (pointB.y != pointA.y)) {
         if (pointB.x != pointA.x) {
           if (pointB.x > pointA.x) pointB.x--;
