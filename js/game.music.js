@@ -1,8 +1,12 @@
 game.music = {
-  songs: [
-    game.assets.audio[0],
-    game.assets.audio[1],
-  ],
+  songs: [],
+  init: function() {
+    this.songs.push(game.assets.audio[0], game.assets.audio[1]);
+    for(var i = 0; i < this.songs.length; i++){
+      this.songs[i].loop = true;
+    }
+    this.play();
+  },
   songSelect: 0,
   muted: false,
   play: function() {

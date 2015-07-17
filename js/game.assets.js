@@ -1,31 +1,42 @@
 
 game.assets = {
+  files: [
+  "assets/images/TileA4.png",
+  "assets/images/characterDown.png",
+  "assets/images/dungeontileset.png",
+  "assets/images/character-face.png",
+  "assets/images/chest.png",
+  "assets/images/rat.png",
+  "assets/images/sword.png",
+  "assets/audio/dungeon.mp3",
+  "assets/audio/little_miss_sunshine.mp3",
+  "assets/audio/steps.mp3",
+  "assets/audio/step.mp3"],
   images: [],
   audio: [],
   sprite: {},
   loadingImg: new Image(),
-  load: function(assets, callback) {
+  load: function(callback) {
     var loadStart = Date.now();
     var loadCount = 0;
     var self = this;
-    if(assets.length) {
-      for(var i = 0; i < assets.length; i++) {
-        if(assets[i].search(".png") != -1 || assets[i].search(".gif") != -1) {
+    if(this.files.length) {
+      for(var i = 0; i < this.files.length; i++) {
+        if(this.files[i].search(".png") != -1 || this.files[i].search(".gif") != -1) {
           var image = new Image();
-          image.setAttribute("src", assets[i]);
+          image.setAttribute("src", this.files[i]);
           this.images.push(image);
           image.onload = function() {
             loadCount++;
-            if(loadCount === assets.length) finish(self.sprite);
+            if(loadCount === self.files.length) finish(self.sprite);
           };
-        } else if(assets[i].search(".mp3") != -1) {
+        } else if(this.files[i].search(".mp3") != -1) {
           var audio = document.createElement("audio");
           audio.setAttribute("type","audio/mpeg");
-  				audio.setAttribute("src", assets[i]);
-          audio.setAttribute("loop", "true");
+  				audio.setAttribute("src", this.files[i]);
           this.audio.push(audio);
           loadCount++;
-          if(loadCount === assets.length) finish(self.sprite);
+          if(loadCount === this.files.length) finish(self.sprite);
         }
       }
       function TileSheet(image, tilesize, cropX, cropY) {

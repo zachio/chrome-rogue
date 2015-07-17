@@ -14,6 +14,9 @@ game.player = {
   //timeline is used for animating the player
   timeline: Date.now(),
   sprinting: false,
+  init: function() {
+    this.position(game.map.startX, game.map.startY);
+  },
   position: function(x, y) {
     this.x = x;
     this.y = y;
@@ -139,6 +142,7 @@ game.player = {
       this.position(game.map.startX, game.map.startY);
       enemy.enemies = [];
       enemy.generate(game.map);
+      game.level++;
     }
   },
   //Player action

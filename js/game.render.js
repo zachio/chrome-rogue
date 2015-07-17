@@ -91,7 +91,8 @@ game.render = {
       ["game.fps: " + game.render.fps,
       "game.player.x: " + ~~game.player.x,
       "game.player.y: " + ~~game.player.y,
-      "game.muted (press M): " + game.music.muted
+      "game.muted (press M): " + game.music.muted,
+      "game.level: " + game.level
     ]);
   }
 

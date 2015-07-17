@@ -1,14 +1,1 @@
-game.require([
-  "assets",
-  "collision",
-  "enemy",
-  "listeners",
-  "map",
-  "math",
-  "movement",
-  "music",
-  "player",
-  "render",
-  "sound",
-  "time"
-]);
+game.init();

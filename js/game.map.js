@@ -8,6 +8,9 @@ game.map = {
   startX: 0,
   startY: 0,
   roomCount: 0,
+  init: function() {
+    this.generate();
+  },
   generate: function() {
     this.data = [];
     this.rooms = [];

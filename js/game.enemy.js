@@ -1,6 +1,9 @@
 game.enemy = {
   enemies: [],
-  generate: function(map) {
+  init: function() {
+    this.generate();
+  },
+  generate: function() {
     function Rat(x, y) {
       this.x = x;
       this.y = y;
