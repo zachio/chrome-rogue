@@ -6,6 +6,57 @@ game.player = {
       game.sound.effects.swing.play();
       this.attacking = true;
       this.attackTime = Date.now();
+      //detect hit
+      var reach = 0.2;
+      for(var i = 0; i < game.enemy.enemies.length; i++) {
+        var enemy = game.enemy.enemies[i];
+        switch(this.facing) {
+          case "left":
+            if(enemy.x <= this.x - reach
+              && enemy.x >= this.x - reach - 2
+              && enemy.y <= this.y + 0.5
+              && enemy.y >= this.y - 0.5) {
+              enemy.speed = 0;
+              game.sound.effects.hit.load();
+              game.sound.effects.hit.play();
+              console.log("hit");
+            }
+            break;
+          case "up":
+            if(enemy.x <= this.x + 0.5
+              && enemy.x >= this.x - 0.5
+              && enemy.y <= this.y - reach
+              && enemy.y >= this.y - reach - 2) {
+                enemy.speed = 0;
+              game.sound.effects.hit.load();
+              game.sound.effects.hit.play();
+              console.log("hit");
+            }
+            break;
+          case "right":
+            if(enemy.x <= this.x + reach + 2
+              && enemy.x >= this.x + reach
+              && enemy.y <= this.y + 0.5
+              && enemy.y >= this.y - 0.5) {
+                enemy.speed = 0;
+              game.sound.effects.hit.load();
+              game.sound.effects.hit.play();
+              console.log("hit");
+            }
+            break;
+          case "down":
+            if(enemy.x <= this.x + 0.5
+              && enemy.x >= this.x - 0.5
+              && enemy.y <= this.y + reach + 2
+              && enemy.y >= this.y + reach) {
+                enemy.speed = 0;
+              game.sound.effects.hit.load();
+              game.sound.effects.hit.play();
+              console.log("hit");
+            }
+            break;
+        }
+      }
     }
   },
   x: 0,
@@ -119,7 +170,7 @@ game.player = {
       offsetY: 0
     }
     var drawAttack = true;
-    if(this.attacking){
+    if(this.attacking) {
       var timeline = Date.now() - this.attackTime;
       if(timeline < 150) cropX = 0 * 32;
       if(timeline <= 25) {
