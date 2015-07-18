@@ -1,10 +1,12 @@
 game.player = {
   attacking: false,
   attack: function() {
-    game.sound.effects.swing.load();
-    game.sound.effects.swing.play();
-    this.attacking = true;
-    this.attackTime = Date.now();
+    if(!this.attacking) {
+      game.sound.effects.swing.load();
+      game.sound.effects.swing.play();
+      this.attacking = true;
+      this.attackTime = Date.now();
+    }
   },
   x: 0,
   y: 0,
@@ -116,9 +118,10 @@ game.player = {
       offsetX: 0,
       offsetY: 0
     }
+    var drawAttack = true;
     if(this.attacking){
-      cropX = 0 * 32;
       var timeline = Date.now() - this.attackTime;
+      if(timeline < 150) cropX = 0 * 32;
       if(timeline <= 25) {
         attack.cropX = 0;
       } else if (timeline >= 25 && timeline <= 50 ) {
@@ -127,44 +130,46 @@ game.player = {
         attack.cropX = attack.cropSize * 2;
       } else if (timeline >= 75 && timeline <= 100 ) {
         attack.cropX = attack.cropSize * 3;
-      } else if (timeline >= 125 ) {
+      } else if (timeline >= 125 && timeline <= 150) {
         attack.cropX = attack.cropSize * 4;
-      }
-      game.render.ctx.save();
-      switch(this.facing) {
-        case "left":
-          game.render.ctx.translate(
-            centerX,
-            centerY - attack.size / 2);
-            game.render.ctx.rotate(0.75);
-          break;
-        case "up":
-          game.render.ctx.translate(
-            centerX + attack.size * 0.9,
-            centerY);
-          game.render.ctx.rotate(2.333);
-          break;
-        case "right":
-          game.render.ctx.translate(
-            centerX + attack.size * 0.4,
-            centerY - attack.size / 2);
-            game.render.ctx.rotate(0.75);
-          break;
+      } else {
+        drawAttack = false;
       }
 
-      if(this.facing != "down") {
-        game.render.ctx.drawImage(
-          game.assets.images[6],
-          attack.cropX, attack.cropY,
-          attack.cropSize, attack.cropSize,
-          0,
-          0,
-          attack.size, attack.size
-        );
-      }
-      game.render.ctx.restore();
-      if(Date.now() - this.attackTime > 150) {
-        this.attacking = false;
+      if(drawAttack) {
+        game.render.ctx.save();
+        switch(this.facing) {
+          case "left":
+            game.render.ctx.translate(
+              centerX,
+              centerY - attack.size / 2);
+              game.render.ctx.rotate(0.75);
+            break;
+          case "up":
+            game.render.ctx.translate(
+              centerX + attack.size * 0.9,
+              centerY);
+            game.render.ctx.rotate(2.333);
+            break;
+          case "right":
+            game.render.ctx.translate(
+              centerX + attack.size * 0.4,
+              centerY - attack.size / 2);
+              game.render.ctx.rotate(0.75);
+            break;
+        }
+
+        if(this.facing != "down") {
+          game.render.ctx.drawImage(
+            game.assets.images[6],
+            attack.cropX, attack.cropY,
+            attack.cropSize, attack.cropSize,
+            0,
+            0,
+            attack.size, attack.size
+          );
+        }
+        game.render.ctx.restore();
       }
     }
     //Player animation
@@ -179,23 +184,25 @@ game.player = {
     );
 
     //Attack animation in front of player
-
-    if(this.attacking && this.facing === "down") {
-      game.render.ctx.save();
-      game.render.ctx.translate(
-        centerX + attack.size * 0.9,
-        centerY + attack.size * 0.5);
-      game.render.ctx.rotate(2.333);
-      game.render.ctx.drawImage(
-        game.assets.images[6],
-        attack.cropX, attack.cropY,
-        attack.cropSize, attack.cropSize,
-        0,
-        0,
-        attack.size, attack.size
-      );
-      game.render.ctx.restore();
+    if(drawAttack){
+      if(this.attacking && this.facing === "down") {
+        game.render.ctx.save();
+        game.render.ctx.translate(
+          centerX + attack.size * 0.9,
+          centerY + attack.size * 0.5);
+        game.render.ctx.rotate(2.333);
+        game.render.ctx.drawImage(
+          game.assets.images[6],
+          attack.cropX, attack.cropY,
+          attack.cropSize, attack.cropSize,
+          0,
+          0,
+          attack.size, attack.size
+        );
+        game.render.ctx.restore();
+      }
     }
+
   },
 
   tryMove: function() {
@@ -244,32 +251,34 @@ game.player = {
       case "left":
         if(game.map.data[~~(this.x - 0.1)][~~this.y].entity === 5 || game.map.data[~~(this.x - 0.1)][~~this.y + 1].entity === 5) {
           console.log("chest opened");
-        } else {
+        } else if(!this.attacking) {
           this.attack();
         }
         break;
       case "up":
         if(game.map.data[~~this.x][~~(this.y - 0.1)].entity === 5 || game.map.data[~~this.x + 1][~~(this.y - 0.1)].entity === 5) {
           console.log("chest opened");
-        } else {
+        } else if(!this.attacking) {
           this.attack();
         }
         break;
       case "right":
         if(game.map.data[~~(this.x + 1.1)][~~this.y].entity === 5 || game.map.data[~~(this.x + 1.1)][~~this.y + 1].entity === 5) {
           console.log("chest opened");
-        } else {
+        } else if(!this.attacking) {
           this.attack();
         }
         break;
       case "down":
         if(game.map.data[~~this.x][~~(this.y + 1.1)].entity === 5 || game.map.data[~~this.x + 1][~~(this.y + 1.1)].entity === 5) {
           console.log("chest opened");
-        } else {
+        } else if(!this.attacking) {
           this.attack();
         }
         break;
     }
   }
+
+  //Attack
 
 };

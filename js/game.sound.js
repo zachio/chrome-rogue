@@ -8,10 +8,6 @@ game.sound = {
     this.effects.step = game.assets.audio[3];
     this.effects.swing = game.assets.audio[4];
     this.effects.hit = game.assets.audio[5];
-    //this.effects.step.volume = 0.5;
-    for(var prop in this.effects) {
-      this.effects[prop].loop = false;
-    }
   },
   //Creates sound snippets
   update: function() {

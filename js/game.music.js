@@ -1,7 +1,11 @@
 game.music = {
-  songs: [],
+  songs: null,
   init: function() {
-    this.songs.push(game.assets.audio[0], game.assets.audio[1]);
+    this.songs = [
+      game.assets.audio[0],
+      game.assets.audio[1],
+      game.assets.audio[6]
+    ];
     for(var i = 0; i < this.songs.length; i++){
       this.songs[i].loop = true;
     }
@@ -11,7 +15,6 @@ game.music = {
   muted: false,
   play: function() {
     this.songSelect = game.math.random(0, this.songs.length);
-    game.assets.audio[this.songSelect].loop = true;
-    game.assets.audio[this.songSelect].play();
+    this.songs[this.songSelect].play();
   }
 };

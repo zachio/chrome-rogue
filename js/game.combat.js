@@ -1,0 +1,5 @@
+game.combat = {
+  render: function() {
+    
+  }
+};

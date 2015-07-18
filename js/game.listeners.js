@@ -44,7 +44,7 @@ window.onkeydown = function (event) {
     case 32: // Space Action
       game.player.action();
       break;
-    case 77:
+    case 77: // M
       if(game.music.muted) {
         game.assets.audio[game.music.songSelect].play(); game.music.muted = false;
       } else {
@@ -82,6 +82,9 @@ window.onkeyup = function (event) {
     case 16: //Shift stop sprinting
       game.player.speed = 4;
       game.player.sprinting = false;
+      break;
+    case 32: // Space Action
+      game.player.attacking = false;
       break;
   }
   if(game.player.moving.left) game.player.facing = "left";
