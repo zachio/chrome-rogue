@@ -1,5 +1,4 @@
 game.combat = {
-  cooldown: Date.now(),
   detect: function() {
     var reach = 0.2;
     var isEnemy = function(x1, x2, y1, y2) {

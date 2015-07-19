@@ -8,13 +8,28 @@ game.collision = {
     return true;
   },
   isChest: function() {
-    if(game.map.data[~~(game.player.x - 0.1)][~~game.player.y].entity === 5 || game.map.data[~~(game.player.x - 0.1)][~~game.player.y + 1].entity === 5
-      || game.map.data[~~game.player.x][~~(game.player.y - 0.1)].entity === 5 || game.map.data[~~game.player.x + 1][~~(game.player.y - 0.1)].entity === 5
-      || game.map.data[~~(game.player.x + 1.1)][~~game.player.y].entity === 5 || game.map.data[~~(game.player.x + 1.1)][~~game.player.y + 1].entity === 5
-      || game.map.data[~~game.player.x][~~(game.player.y + 1.1)].entity === 5 || game.map.data[~~game.player.x + 1][~~(game.player.y + 1.1)].entity === 5) {
-      return true;
-    } else {
-      return false;
+    console.log("is chest?");
+    switch(game.player.facing) {
+      case "left":
+        if(game.map.data[Math.floor(game.player.x - 0.1)][Math.floor(game.player.y)].entity === 5
+        || game.map.data[Math.floor(game.player.x - 0.1)][Math.floor(game.player.y + 1)].entity === 5) return true;
+        break;
+      case "up":
+        if(game.map.data[Math.floor(game.player.x)][Math.floor(game.player.y - 0.1)].entity === 5
+        || game.map.data[Math.floor(game.player.x + 1)][Math.floor(game.player.y)].entity === 5) return true;
+        break;
+      case "right":
+        if(game.map.data[Math.floor(game.player.x + 1.1)][Math.floor(game.player.y)].entity === 5
+      || game.map.data[Math.floor(game.player.x + 1.1)][Math.floor(game.player.y + 1)].entity === 5) return true;
+        break;
+      case "down":
+        if(game.map.data[Math.floor(game.player.x)][Math.floor(game.player.y + 1.1)].entity === 5
+        || game.map.data[Math.floor(game.player.x + 1)][Math.floor(game.player.y + 1.1)].entity === 5) return true;
+        break;
+      default:
+        console.log("false");
+        return false;
     }
+
   }
 };

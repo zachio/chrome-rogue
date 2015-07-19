@@ -45,6 +45,7 @@ window.onkeydown = function (event) {
       if(game.collision.isChest()) {
         game.player.openChest();
       } else {
+        console.log("attack");
         game.combat.strike();
       }
       break;
