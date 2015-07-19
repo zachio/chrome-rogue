@@ -77,16 +77,24 @@ game.enemy = {
     }
   },
   update: function() {
+
     for(var i = 0; i < this.enemies.length; i++) {
       var enemy = this.enemies[i];
-      if(enemy.x - enemy.startX > 1 && enemy.facing == "right") {
-        enemy.speed = -enemy.speed;
-        enemy.facing = "left";
-      } else if(enemy.x - enemy.startX < -1 && enemy.facing == "left") {
-        enemy.speed = Math.abs(enemy.speed);
-        enemy.facing = "right";
+      var speed = game.movement.speedPerSecond(enemy.speed);
+      switch(enemy.facing) {
+        case "left":
+          if(!game.collision.detect(enemy, -speed, 0.9))
+            enemy.x -= speed;
+          else
+            enemy.facing = "right";
+          break;
+        case "right":
+          if(!game.collision.detect(enemy, speed + 1, 0.9))
+            enemy.x += speed;
+          else
+            enemy.facing = "left";
+          break;
       }
-      enemy.x += game.movement.speedPerSecond(enemy.speed, game.time.tickDuration);
     }
   }
 };

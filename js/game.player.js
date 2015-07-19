@@ -125,7 +125,7 @@ game.player = {
     }
   },
   tryMove: function() {
-    var speed = game.movement.speedPerSecond(this.speed, game.time.tickDuration);
+    var speed = game.movement.speedPerSecond(this.speed);
     //invert the speed so the player can fit through cooridors
     var modifier = -speed;
     //Left
