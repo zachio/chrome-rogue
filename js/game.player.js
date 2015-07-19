@@ -14,7 +14,6 @@ game.player = {
   image: false,
   //timeline is used for animating the player
   timeline: Date.now(),
-  attackTime: Date.now(),
   sprinting: false,
   init: function() {
     this.position(game.map.startX, game.map.startY);
@@ -99,6 +98,7 @@ game.player = {
           break;
       }
     }
+    if(Date.now() - game.combat.coolDown < 200) cropX = 0;
 
     game.combat.render(centerX, centerY);
 

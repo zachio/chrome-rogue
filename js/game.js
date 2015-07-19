@@ -1,7 +1,7 @@
 'use strict'
 
 var game = {
-  level: 0,
+  level: 1,
   load: function(scripts, callback) {
     var start = Date.now();
     var loaded = 0;

@@ -203,7 +203,8 @@ game.assets = {
             start: new Sprite(game.assets.images[2], 13, 0),
             end: new Sprite(game.assets.images[2], 5, 15),
             chest: new Sprite(game.assets.images[4], 6, 4),
-            rat: new Sprite(game.assets.images[5], 4, 0)
+            rat: new Sprite(game.assets.images[5], 4, 0),
+            deadrat: new Sprite(game.assets.images[5], 3, 0),
         };
         self.loadingImg.style.display = "none";
         document.body.appendChild(game.render.canvas);

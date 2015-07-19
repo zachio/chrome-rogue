@@ -1,4 +1,5 @@
 game.combat = {
+  coolDown: Date.now(),
   detect: function() {
     var reach = 0.2;
     var isEnemy = function(x1, x2, y1, y2) {
@@ -49,7 +50,7 @@ game.combat = {
     if(!this.isAttacking) {
       this.sound();
       this.isAttacking = true;
-      this.attackTime = Date.now();
+      this.coolDown = Date.now();
       this.detect();
     }
   },
@@ -69,7 +70,7 @@ game.combat = {
     }
     var drawAttack = true;
     if(this.isAttacking) {
-      var timeline = Date.now() - this.attackTime;
+      var timeline = Date.now() - this.coolDown;
       if(timeline < 150) cropX = 0 * 32;
       if(timeline <= 25) {
         attack.cropX = 0;
