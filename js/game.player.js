@@ -1,6 +1,9 @@
 game.player = {
+  attack: {},
+  status: {},
   x: 0,
   y: 0,
+  exp: 0,
   moving: {
     left: false,
     up: false,

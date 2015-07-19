@@ -32,7 +32,8 @@ game.player.status = {
         lineHeight: 30,
         content: [
           "Name: Chrome",
-          "Level: " + game.level
+          "Level: " + game.level,
+          "Experience: " + game.player.exp
         ],
         display: function() {
           for(var i = 0; i < this.content.length; i++) {
