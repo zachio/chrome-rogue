@@ -100,18 +100,29 @@ game.player = {
     }
     if(Date.now() - game.combat.coolDown < 200) cropX = 0;
 
-    game.combat.render(centerX, centerY);
-
-    //Player animation
-    game.render.ctx.drawImage(
-      game.assets.images[1],
-      cropX, cropY,
-      32,
-      32 - 1, //Minus one because it was clipping the below graphics
-      centerX, centerY,
-      this.size * game.render.scale,
-      this.size * game.render.scale
-    );
+    var drawPlayer = function() {
+      //Player animation
+      game.render.ctx.drawImage(
+        game.assets.images[1],
+        cropX, cropY,
+        32,
+        32 - 1, //Minus one because it was clipping the below graphics
+        centerX, centerY,
+        self.size * game.render.scale,
+        self.size * game.render.scale
+      );
+    };
+    if(game.combat.isAttacking) {
+      if(this.facing === "down") {
+        drawPlayer();
+        game.combat.render(centerX, centerY);
+      } else {
+        game.combat.render(centerX, centerY);
+        drawPlayer();
+      }
+    } else {
+      drawPlayer();
+    }
   },
   tryMove: function() {
     var speed = game.movement.speedPerSecond(this.speed, game.time.tickDuration);
