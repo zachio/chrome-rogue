@@ -7,7 +7,6 @@ game.render = {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     this.canvas.style.backgroundColor = "black";
-    this.canvas.style.cursor = "none";
     this.ctx = this.canvas.getContext("2d");
   	this.ctx.imageSmoothingEnabled = false;
     //Styling body element
@@ -88,13 +87,14 @@ game.render = {
     }
     game.enemy.render();
     game.player.render();
-    game.render.messageBox(20, 20, 200,
+    /*game.render.messageBox(20, 20, 200,
       ["game.fps: " + game.render.fps,
       "game.player.x: " + ~~game.player.x,
       "game.player.y: " + ~~game.player.y,
       "game.muted (press M): " + game.music.muted,
       "game.level: " + game.level
-    ]);
+    ]);*/
+    game.player.status.render();
   }
 
 };

@@ -41,19 +41,26 @@ window.onkeydown = function (event) {
     case 189: // - decrease scale
       game.render.scale--;
       break;
-    case 32: // Space Action
-      game.player.action();
+    case 32: // Space
+      if(game.collision.isChest()) {
+        game.player.openChest();
+      } else {
+        game.player.attack.strike();
+      }
       break;
     case 77: // M
       if(game.music.muted) {
-        game.assets.audio[game.music.songSelect].play(); game.music.muted = false;
+        game.music.songs[game.music.songSelect].play(); game.music.muted = false;
       } else {
-        game.assets.audio[game.music.songSelect].pause(); game.music.muted = true;
+        game.music.songs[game.music.songSelect].pause(); game.music.muted = true;
       }
       break;
     case 16: // Shift to Sprint
       game.player.speed = 8;
       game.player.sprinting = true;
+      break;
+    case 27: // Escape for Status
+      game.player.status.isOn = game.misc.toggle(game.player.status.isOn);
       break;
     }
 };
@@ -84,7 +91,7 @@ window.onkeyup = function (event) {
       game.player.sprinting = false;
       break;
     case 32: // Space Action
-      game.player.attacking = false;
+      game.player.attack.isAttacking = false;
       break;
   }
   if(game.player.moving.left) game.player.facing = "left";

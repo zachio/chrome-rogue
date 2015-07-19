@@ -40,9 +40,12 @@ var game = {
       "listeners",
       "map",
       "math",
+      "misc",
       "movement",
       "music",
       "player",
+      "player.attack",
+      "player.status",
       "render",
       "sound",
       "time"

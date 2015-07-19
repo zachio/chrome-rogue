@@ -1,64 +1,4 @@
 game.player = {
-  attacking: false,
-  attack: function() {
-    if(!this.attacking) {
-      game.sound.effects.swing.load();
-      game.sound.effects.swing.play();
-      this.attacking = true;
-      this.attackTime = Date.now();
-      //detect hit
-      var reach = 0.2;
-      for(var i = 0; i < game.enemy.enemies.length; i++) {
-        var enemy = game.enemy.enemies[i];
-        switch(this.facing) {
-          case "left":
-            if(enemy.x <= this.x - reach
-              && enemy.x >= this.x - reach - 2
-              && enemy.y <= this.y + 0.5
-              && enemy.y >= this.y - 0.5) {
-              enemy.speed = 0;
-              game.sound.effects.hit.load();
-              game.sound.effects.hit.play();
-              console.log("hit");
-            }
-            break;
-          case "up":
-            if(enemy.x <= this.x + 0.5
-              && enemy.x >= this.x - 0.5
-              && enemy.y <= this.y - reach
-              && enemy.y >= this.y - reach - 2) {
-                enemy.speed = 0;
-              game.sound.effects.hit.load();
-              game.sound.effects.hit.play();
-              console.log("hit");
-            }
-            break;
-          case "right":
-            if(enemy.x <= this.x + reach + 2
-              && enemy.x >= this.x + reach
-              && enemy.y <= this.y + 0.5
-              && enemy.y >= this.y - 0.5) {
-                enemy.speed = 0;
-              game.sound.effects.hit.load();
-              game.sound.effects.hit.play();
-              console.log("hit");
-            }
-            break;
-          case "down":
-            if(enemy.x <= this.x + 0.5
-              && enemy.x >= this.x - 0.5
-              && enemy.y <= this.y + reach + 2
-              && enemy.y >= this.y + reach) {
-                enemy.speed = 0;
-              game.sound.effects.hit.load();
-              game.sound.effects.hit.play();
-              console.log("hit");
-            }
-            break;
-        }
-      }
-    }
-  },
   x: 0,
   y: 0,
   moving: {
@@ -159,70 +99,8 @@ game.player = {
       }
     }
 
+    this.attack.render(centerX, centerY);
 
-    //Attacking Animation
-    var attack = {
-      cropX: 0,
-      cropY: 0,
-      cropSize: 192,
-      size: 96 * game.render.scale,
-      offsetX: 0,
-      offsetY: 0
-    }
-    var drawAttack = true;
-    if(this.attacking) {
-      var timeline = Date.now() - this.attackTime;
-      if(timeline < 150) cropX = 0 * 32;
-      if(timeline <= 25) {
-        attack.cropX = 0;
-      } else if (timeline >= 25 && timeline <= 50 ) {
-        attack.cropX = attack.cropSize;
-      } else if (timeline >= 50 && timeline <= 75 ) {
-        attack.cropX = attack.cropSize * 2;
-      } else if (timeline >= 75 && timeline <= 100 ) {
-        attack.cropX = attack.cropSize * 3;
-      } else if (timeline >= 125 && timeline <= 150) {
-        attack.cropX = attack.cropSize * 4;
-      } else {
-        drawAttack = false;
-      }
-
-      if(drawAttack) {
-        game.render.ctx.save();
-        switch(this.facing) {
-          case "left":
-            game.render.ctx.translate(
-              centerX,
-              centerY - attack.size / 2);
-              game.render.ctx.rotate(0.75);
-            break;
-          case "up":
-            game.render.ctx.translate(
-              centerX + attack.size * 0.9,
-              centerY);
-            game.render.ctx.rotate(2.333);
-            break;
-          case "right":
-            game.render.ctx.translate(
-              centerX + attack.size * 0.4,
-              centerY - attack.size / 2);
-              game.render.ctx.rotate(0.75);
-            break;
-        }
-
-        if(this.facing != "down") {
-          game.render.ctx.drawImage(
-            game.assets.images[6],
-            attack.cropX, attack.cropY,
-            attack.cropSize, attack.cropSize,
-            0,
-            0,
-            attack.size, attack.size
-          );
-        }
-        game.render.ctx.restore();
-      }
-    }
     //Player animation
     game.render.ctx.drawImage(
       game.assets.images[1],
@@ -233,34 +111,11 @@ game.player = {
       this.size * game.render.scale,
       this.size * game.render.scale
     );
-
-    //Attack animation in front of player
-    if(drawAttack){
-      if(this.attacking && this.facing === "down") {
-        game.render.ctx.save();
-        game.render.ctx.translate(
-          centerX + attack.size * 0.9,
-          centerY + attack.size * 0.5);
-        game.render.ctx.rotate(2.333);
-        game.render.ctx.drawImage(
-          game.assets.images[6],
-          attack.cropX, attack.cropY,
-          attack.cropSize, attack.cropSize,
-          0,
-          0,
-          attack.size, attack.size
-        );
-        game.render.ctx.restore();
-      }
-    }
-
   },
-
   tryMove: function() {
     var speed = game.movement.speedPerSecond(this.speed, game.time.tickDuration);
     //invert the speed so the player can fit through cooridors
     var modifier = -speed;
-
     //Left
     if(this.moving.left
       && !game.collision.detect(this,-modifier, 0.9)) {
@@ -295,41 +150,36 @@ game.player = {
       game.level++;
     }
   },
-  //Player action
-  action: function() {
-    //Open chest
+  openChest: function() {
+    var chestSound = function() {
+      game.sound.effects.chest.load();
+      game.sound.effects.chest.play();
+    };
     switch(this.facing) {
       case "left":
         if(game.map.data[~~(this.x - 0.1)][~~this.y].entity === 5 || game.map.data[~~(this.x - 0.1)][~~this.y + 1].entity === 5) {
           console.log("chest opened");
-        } else if(!this.attacking) {
-          this.attack();
+          chestSound();
         }
         break;
       case "up":
         if(game.map.data[~~this.x][~~(this.y - 0.1)].entity === 5 || game.map.data[~~this.x + 1][~~(this.y - 0.1)].entity === 5) {
           console.log("chest opened");
-        } else if(!this.attacking) {
-          this.attack();
+          chestSound();
         }
         break;
       case "right":
         if(game.map.data[~~(this.x + 1.1)][~~this.y].entity === 5 || game.map.data[~~(this.x + 1.1)][~~this.y + 1].entity === 5) {
           console.log("chest opened");
-        } else if(!this.attacking) {
-          this.attack();
+          chestSound();
         }
         break;
       case "down":
         if(game.map.data[~~this.x][~~(this.y + 1.1)].entity === 5 || game.map.data[~~this.x + 1][~~(this.y + 1.1)].entity === 5) {
           console.log("chest opened");
-        } else if(!this.attacking) {
-          this.attack();
+          chestSound();
         }
         break;
     }
   }
-
-  //Attack
-
 };

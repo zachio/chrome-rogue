@@ -2,12 +2,15 @@ game.sound = {
   effects: {
     step: null,
     swing: null,
+    hit: null,
+    chest: null
   },
   timeline: Date.now(),
   init: function() {
     this.effects.step = game.assets.audio[3];
     this.effects.swing = game.assets.audio[4];
     this.effects.hit = game.assets.audio[5];
+    this.effects.chest = game.assets.audio[7];
   },
   //Creates sound snippets
   update: function() {
