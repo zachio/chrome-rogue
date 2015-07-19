@@ -8,6 +8,7 @@ game.assets = {
   "assets/images/chest.png",
   "assets/images/rat.png",
   "assets/images/sword.png",
+  "assets/images/deadrat.png",
   "assets/audio/dungeon.mp3",
   "assets/audio/little_miss_sunshine.mp3",
   "assets/audio/steps.mp3",

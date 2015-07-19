@@ -30,7 +30,7 @@ game.enemy = {
 
     for(var i = 0; i < this.enemies.length; i++) {
       var enemy = this.enemies[i];
-      var rat = (enemy.speed) ? game.assets.sprite.rat : game.assets.sprite.deadrat;
+      var rat = (enemy.speed) ? game.assets.sprite.rat : game.assets.images[7];
       var drawX = Math.floor(scale * enemy.x - game.player.x * scale + window.innerWidth / 2 - game.map.tileSize / 2);
       var drawY = Math.floor(scale * enemy.y - game.player.y * scale + window.innerHeight / 2 - game.map.tileSize / 2);
       var cropY = 0;
