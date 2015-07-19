@@ -1,6 +1,4 @@
 game.player = {
-  attack: {},
-  status: {},
   x: 0,
   y: 0,
   exp: 0,
@@ -102,7 +100,7 @@ game.player = {
       }
     }
 
-    this.attack.render(centerX, centerY);
+    game.combat.render(centerX, centerY);
 
     //Player animation
     game.render.ctx.drawImage(

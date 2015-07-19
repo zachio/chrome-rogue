@@ -36,6 +36,7 @@ var game = {
     this.load([
       "assets",
       "collision",
+      "combat",
       "enemy",
       "listeners",
       "map",
@@ -44,10 +45,9 @@ var game = {
       "movement",
       "music",
       "player",
-      "player.attack",
-      "player.status",
       "render",
       "sound",
+      "status",
       "time"
     ], function() {
       game.assets.load(init);

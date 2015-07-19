@@ -1,4 +1,4 @@
-game.player.status = {
+game.status = {
   isOn: false,
   render: function() {
     var

@@ -45,7 +45,7 @@ window.onkeydown = function (event) {
       if(game.collision.isChest()) {
         game.player.openChest();
       } else {
-        game.player.attack.strike();
+        game.combat.strike();
       }
       break;
     case 77: // M
@@ -60,7 +60,7 @@ window.onkeydown = function (event) {
       game.player.sprinting = true;
       break;
     case 27: // Escape for Status
-      game.player.status.isOn = game.misc.toggle(game.player.status.isOn);
+      game.status.isOn = game.misc.toggle(game.status.isOn);
       break;
     }
 };
@@ -91,7 +91,7 @@ window.onkeyup = function (event) {
       game.player.sprinting = false;
       break;
     case 32: // Space Action
-      game.player.attack.isAttacking = false;
+      game.combat.isAttacking = false;
       break;
   }
   if(game.player.moving.left) game.player.facing = "left";

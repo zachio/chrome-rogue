@@ -94,7 +94,7 @@ game.render = {
       "game.muted (press M): " + game.music.muted,
       "game.level: " + game.level
     ]);*/
-    game.player.status.render();
+    game.status.render();
   }
 
 };
