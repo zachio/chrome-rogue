@@ -1,6 +1,8 @@
 game.player = {
   x: 0,
   y: 0,
+  cropX: null,
+  cropY: null,
   exp: 0,
   moving: {
     left: false,
@@ -25,10 +27,37 @@ game.player = {
   render: function() {
     var centerX = window.innerWidth / 2 - this.size / 2;
     var centerY = window.innerHeight / 2 - this.size / 2;
-    var cropX = 1 * 32;
-    var cropY = 4 * 32;
-    var playhead = Date.now() - this.timeline;
     var self = this;
+    var drawPlayer = function() {
+      //Player animation
+      game.render.ctx.drawImage(
+        game.assets.images[1],
+        self.cropX, self.cropY,
+        32,
+        32 - 1, //Minus one because it was clipping the below graphics
+        centerX, centerY,
+        self.size * game.render.scale,
+        self.size * game.render.scale
+      );
+    };
+    if(game.combat.isAttacking) {
+      if(this.facing === "down") {
+        drawPlayer();
+        game.combat.render(centerX, centerY);
+      } else {
+        game.combat.render(centerX, centerY);
+        drawPlayer();
+      }
+    } else {
+      drawPlayer();
+    }
+  },
+  update: function() {
+    var self = this;
+    this.cropX = 1 * 32;
+    this.cropY = 4 * 32;
+    var playhead = Date.now() - this.timeline;
+
     //Playing the animation frames
     var walkAnimation = function () {
       if(playhead < 250) {
@@ -61,70 +90,44 @@ game.player = {
     //Walking Animation
     switch(this.facing) {
       case "left":
-        cropX = (this.moving.left) ? walkAnimation() : 1 * 32;
-        cropY = 5 * 32;
+        this.cropX = (this.moving.left) ? walkAnimation() : 1 * 32;
+        this.cropY = 5 * 32;
         break;
       case "up":
-        cropX = (this.moving.up) ? walkAnimation() : 1 * 32;
-        cropY = 7 * 32;
+        this.cropX = (this.moving.up) ? walkAnimation() : 1 * 32;
+        this.cropY = 7 * 32;
         break;
       case "right":
-        cropX = (this.moving.right) ? walkAnimation() : 1 * 32;
-        cropY = 6 * 32;
+        this.cropX = (this.moving.right) ? walkAnimation() : 1 * 32;
+        this.cropY = 6 * 32;
         break;
       case "down":
-        cropX = (this.moving.down) ? walkAnimation() : 1 * 32;
-        cropY = 4 * 32;
+        this.cropX = (this.moving.down) ? walkAnimation() : 1 * 32;
+        this.cropY = 4 * 32;
         break;
     }
     //Sprinting Animation
     if(this.sprinting) {
       switch(this.facing) {
         case "left":
-          cropX = (this.moving.left) ? sprintAnimation() : 1 * 32;
-          cropY = 5 * 32;
+          this.cropX = (this.moving.left) ? sprintAnimation() : 1 * 32;
+          this.cropY = 5 * 32;
           break;
         case "up":
-          cropX = (this.moving.up) ? sprintAnimation() : 1 * 32;
-          cropY = 7 * 32;
+          this.cropX = (this.moving.up) ? sprintAnimation() : 1 * 32;
+          this.cropY = 7 * 32;
           break;
         case "right":
-          cropX = (this.moving.right) ? sprintAnimation() : 1 * 32;
-          cropY = 6 * 32;
+          this.cropX = (this.moving.right) ? sprintAnimation() : 1 * 32;
+          this.cropY = 6 * 32;
           break;
         case "down":
-          cropX = (this.moving.down) ? sprintAnimation() : 1 * 32;
-          cropY = 4 * 32;
+          this.cropX = (this.moving.down) ? sprintAnimation() : 1 * 32;
+          this.cropY = 4 * 32;
           break;
       }
     }
-    if(Date.now() - game.combat.coolDown < 200) cropX = 0;
-
-    var drawPlayer = function() {
-      //Player animation
-      game.render.ctx.drawImage(
-        game.assets.images[1],
-        cropX, cropY,
-        32,
-        32 - 1, //Minus one because it was clipping the below graphics
-        centerX, centerY,
-        self.size * game.render.scale,
-        self.size * game.render.scale
-      );
-    };
-    if(game.combat.isAttacking) {
-      if(this.facing === "down") {
-        drawPlayer();
-        game.combat.render(centerX, centerY);
-      } else {
-        game.combat.render(centerX, centerY);
-        drawPlayer();
-      }
-    } else {
-      drawPlayer();
-    }
-  },
-  tryMove: function() {
+    if(Date.now() - game.combat.coolDown < 200) this.cropX = 0;
     var speed = game.movement.speedPerSecond(this.speed);
     //invert the speed so the player can fit through cooridors
     var modifier = -speed;

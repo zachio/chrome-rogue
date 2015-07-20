@@ -7,6 +7,8 @@ game.enemy = {
     function Rat(x, y) {
       this.x = x;
       this.y = y;
+      this.cropX = null;
+      this.cropY = null;
       this.startX = x;
       this.speed = 5;
       this.facing = "right";
@@ -33,31 +35,11 @@ game.enemy = {
       var rat = (enemy.speed) ? game.assets.sprite.rat : game.assets.images[7];
       var drawX = Math.floor(scale * enemy.x - game.player.x * scale + window.innerWidth / 2 - game.map.tileSize / 2);
       var drawY = Math.floor(scale * enemy.y - game.player.y * scale + window.innerHeight / 2 - game.map.tileSize / 2);
-      var cropY = 0;
-      var cropX = 0;
-      var playhead = Date.now() - this.timeline;
-      if(playhead <= 100)
-        cropX = 3 * 32;
-      else if(playhead >= 100 && playhead <= 200)
-        cropX = 4 * 32;
-      else if(playhead >= 200 && playhead <= 300)
-        cropX = 5 * 32;
-      else if(playhead >= 300 && playhead <= 400)
-        cropX = 4 * 32;
-      else this.timeline = Date.now();
-      switch(enemy.facing) {
-        case "left":
-          cropY = 1 * 32;
-          break;
-        case "right":
-          cropY = 2 * 32;
-          break;
-      }
       if(enemy.speed) {
         game.render.ctx.drawImage(
           game.assets.images[5],
-          cropX,
-          cropY,
+          enemy.cropX,
+          enemy.cropY,
           32, 32,
           drawX,
           drawY,
@@ -77,18 +59,29 @@ game.enemy = {
     }
   },
   update: function() {
-
     for(var i = 0; i < this.enemies.length; i++) {
       var enemy = this.enemies[i];
       var speed = game.movement.speedPerSecond(enemy.speed);
+      var playhead = Date.now() - this.timeline;
+      if(playhead <= 100)
+        enemy.cropX = 3 * 32;
+      else if(playhead >= 100 && playhead <= 200)
+        enemy.cropX = 4 * 32;
+      else if(playhead >= 200 && playhead <= 300)
+        enemy.cropX = 5 * 32;
+      else if(playhead >= 300 && playhead <= 400)
+        enemy.cropX = 4 * 32;
+      else this.timeline = Date.now();
       switch(enemy.facing) {
         case "left":
+          enemy.cropY = 1 * 32;
           if(!game.collision.detect(enemy, -speed, 0.9))
             enemy.x -= speed;
           else
             enemy.facing = "right";
           break;
         case "right":
+          enemy.cropY = 2 * 32;
           if(!game.collision.detect(enemy, speed + 1, 0.9))
             enemy.x += speed;
           else

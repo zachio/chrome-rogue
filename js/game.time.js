@@ -13,6 +13,7 @@ game.time = {
 			this.fpsUpdate = currentTime;
 		}
 		this.tickDuration = currentTime - this.lastTick;
+    if(this.tickDuration > 1000) this.tickDuration = 17;
 		this.lastTick = currentTime;
 	}
 };

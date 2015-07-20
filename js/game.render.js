@@ -13,19 +13,22 @@ game.render = {
     document.body.style.margin = 0;
     document.body.style.overflow = "hidden";
   },
-  messageBox: function(x, y, width, textArray) {
+  messageBox: function(x, y, width, textArray, fontStyle, textAlign) {
     var box = {
       x: x,
       y: y,
       width: width,
       height: textArray.length * 20 + 20,
     };
-    this.ctx.fillStyle = "rgba(0,0,0,0.8)";
+    this.ctx.font = fontStyle || "10px Arial";
+    this.ctx.textAlign = textAlign || "left";
+    this.ctx.fillStyle = "rgba(0,0,0,0.9)";
     this.ctx.fillRect(x, y, box.width, box.height);
     this.ctx.fillStyle = "white";
     for(var i = 0; i < textArray.length; i++) {
       this.ctx.fillText(textArray[i], x + 20, (y + 20 * i) + 20);
     }
+
   },
   clearScreen: function() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -87,14 +90,23 @@ game.render = {
     }
     game.enemy.render();
     game.player.render();
-    /*game.render.messageBox(20, 20, 200,
+    this.messageBox(20, 20, 200,
       ["game.fps: " + game.render.fps,
       "game.player.x: " + ~~game.player.x,
       "game.player.y: " + ~~game.player.y,
       "game.muted (press M): " + game.music.muted,
       "game.level: " + game.level
-    ]);*/
+    ]);
     game.status.render();
+    if(game.paused) this.pause();
+  },
+  pause: function() {
+    this.ctx.font = "20px Arial";
+    this.ctx.textAlign = "center";
+    this.ctx.fillStyle = "rgba(0,0,0,0.9)";
+    this.ctx.fillRect(window.innerWidth / 2 - 200 / 2, window.innerHeight / 2 - 50 / 2, 200,50);
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText("PAUSE", window.innerWidth / 2, window.innerHeight / 2 + 5);
   }
 
 };

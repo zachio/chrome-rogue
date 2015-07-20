@@ -65,17 +65,21 @@ var game = {
 
   },
   tick: function() {
-    game.render.clearScreen();
     game.time.update();
+    game.render.clearScreen();
     game.render.frame();
-    game.update();
+    if(!game.paused) {
+      game.update();
+    }
     requestAnimationFrame(game.tick);
   },
   loop: function() {
   	requestAnimationFrame(game.tick);
   },
+  paused: false,
   update: function() {
-    this.player.tryMove();
+    this.player.update();
+    this.combat.update();
     this.player.hasBeatStage(this.assets.audio[2], this.enemy);
     this.enemy.update();
     this.sound.update();

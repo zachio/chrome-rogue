@@ -62,7 +62,11 @@ window.onkeydown = function (event) {
     case 27: // Escape for Status
       game.status.isOn = game.misc.toggle(game.status.isOn);
       break;
+    case 80: // P Paused
+      game.paused = game.misc.toggle(game.paused);
+      break;
     }
+
 };
 window.onkeyup = function (event) {
   switch (event.keyCode) {
@@ -92,6 +96,7 @@ window.onkeyup = function (event) {
       break;
     case 32: // Space Action
       game.combat.isAttacking = false;
+      game.combat.animate = true;
       break;
   }
   if(game.player.moving.left) game.player.facing = "left";

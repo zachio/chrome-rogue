@@ -47,9 +47,10 @@ game.combat = {
   },
   isAttacking: false,
   strike: function() {
-    if(!this.isAttacking) {
+    if(!this.isAttacking && !game.paused) {
       this.sound();
       this.isAttacking = true;
+      this.animate = true;
       this.coolDown = Date.now();
       this.detect();
     }
@@ -59,88 +60,72 @@ game.combat = {
     game.sound.effects.swing.play();
   },
   render: function(centerX, centerY) {
-    //Attacking Animation
-    var attack = {
-      cropX: 0,
-      cropY: 0,
-      cropSize: 192,
-      size: 96 * game.render.scale,
-      offsetX: 0,
-      offsetY: 0
+    if(this.isAttacking) {
+      var imageSize = 96 * game.render.scale;
+      game.render.ctx.save();
+      switch(game.player.facing) {
+        case "left":
+          game.render.ctx.translate(
+            centerX,
+            centerY - imageSize / 2);
+            game.render.ctx.rotate(0.75);
+          break;
+        case "up":
+          game.render.ctx.translate(
+            centerX + imageSize * 0.9,
+            centerY);
+          game.render.ctx.rotate(2.333);
+          break;
+        case "right":
+          game.render.ctx.translate(
+            centerX + imageSize * 0.4,
+            centerY - imageSize / 2);
+            game.render.ctx.rotate(0.75);
+          break;
+        case "down":
+          game.render.ctx.translate(
+            centerX + imageSize * 0.9,
+            centerY + imageSize / 2);
+          game.render.ctx.rotate(2.333);
+          break;
+      }
+
+      //Strike animation overlay player when facing down
+      if(this.animate) {
+        game.render.ctx.drawImage(
+          game.assets.images[6],
+          this.cropX, this.cropY,
+          this.cropSize, this.cropSize,
+          0,
+          0,
+          imageSize, imageSize
+        );
+      }
+      game.render.ctx.restore();
     }
-    var drawAttack = true;
+  },
+  update: function() {
+    //Attacking Animation
     if(this.isAttacking) {
       var timeline = Date.now() - this.coolDown;
       if(timeline < 150) cropX = 0 * 32;
       if(timeline <= 25) {
-        attack.cropX = 0;
+        this.cropX = 0;
       } else if (timeline >= 25 && timeline <= 50 ) {
-        attack.cropX = attack.cropSize;
+        this.cropX = this.cropSize;
       } else if (timeline >= 50 && timeline <= 75 ) {
-        attack.cropX = attack.cropSize * 2;
+        this.cropX = this.cropSize * 2;
       } else if (timeline >= 75 && timeline <= 100 ) {
-        attack.cropX = attack.cropSize * 3;
+        this.cropX = this.cropSize * 3;
       } else if (timeline >= 125 && timeline <= 150) {
-        attack.cropX = attack.cropSize * 4;
+        this.cropX = this.cropSize * 4;
       } else {
-        drawAttack = false;
-      }
-
-      if(drawAttack) {
-        game.render.ctx.save();
-        switch(game.player.facing) {
-          case "left":
-            game.render.ctx.translate(
-              centerX,
-              centerY - attack.size / 2);
-              game.render.ctx.rotate(0.75);
-            break;
-          case "up":
-            game.render.ctx.translate(
-              centerX + attack.size * 0.9,
-              centerY);
-            game.render.ctx.rotate(2.333);
-            break;
-          case "right":
-            game.render.ctx.translate(
-              centerX + attack.size * 0.4,
-              centerY - attack.size / 2);
-              game.render.ctx.rotate(0.75);
-            break;
-        }
-
-        if(game.player.facing != "down") {
-          game.render.ctx.drawImage(
-            game.assets.images[6],
-            attack.cropX, attack.cropY,
-            attack.cropSize, attack.cropSize,
-            0,
-            0,
-            attack.size, attack.size
-          );
-        }
-        game.render.ctx.restore();
+        this.animate = false;
       }
     }
-
-    //Attack animation in front of player
-    if(drawAttack){
-      if(this.isAttacking && game.player.facing === "down") {
-        game.render.ctx.save();
-        game.render.ctx.translate(
-          centerX + attack.size * 0.9,
-          centerY + attack.size * 0.5);
-        game.render.ctx.rotate(2.333);
-        game.render.ctx.drawImage(
-          game.assets.images[6],
-          attack.cropX, attack.cropY,
-          attack.cropSize, attack.cropSize,
-          0,
-          0,
-          attack.size, attack.size
-        );
-        game.render.ctx.restore();
-      }
-    }
-  }
+  },
+  cropX: null,
+  cropY: null,
+  cropSize: 192,
+  animate: true
 };
