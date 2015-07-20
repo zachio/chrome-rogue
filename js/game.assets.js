@@ -201,8 +201,8 @@ game.assets = {
         self.sprite = {
             floor: new TileSheet(game.assets.images[0], game.map.tileSize, 0, 10),
             wall: new Sprite(game.assets.images[0], 0.5, 13.5),
-            start: new Sprite(game.assets.images[2], 13, 0),
-            end: new Sprite(game.assets.images[2], 5, 15),
+            upstairs: new Sprite(game.assets.images[2], 13, 0),
+            downstairs: new Sprite(game.assets.images[2], 5, 15),
             chest: new Sprite(game.assets.images[4], 6, 4),
             rat: new Sprite(game.assets.images[5], 4, 0),
             deadrat: new Sprite(game.assets.images[5], 3, 0),

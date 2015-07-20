@@ -48,6 +48,7 @@ var game = {
       "render",
       "sound",
       "status",
+      "Tile",
       "time"
     ], function() {
       game.assets.load(init);

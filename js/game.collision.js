@@ -2,15 +2,14 @@ game.collision = {
   detect: function(entity, x, y) {
     var entityX = Math.floor(entity.x + x);
     var entityY = Math.floor(entity.y + y);
-    if(game.map.data[entityX][entityY].type === 1 && game.map.data[entityX][entityY].entity != 5) {
-      return false;
-    }
+    if(game.map.data[entityX][entityY].type === "floor"
+    && !game.map.search("chest", entityX, entityY)) return false;
     return true;
   },
   isChest: function() {
     var is = function(x1, x2, y1, y2) {
-      if(game.map.data[Math.floor(game.player.x + x1)][Math.floor(game.player.y + y1)].entity === 5
-      || game.map.data[Math.floor(game.player.x + x2)][Math.floor(game.player.y + y2)].entity === 5) return true;
+      if(game.map.search("chest", Math.floor(game.player.x + x1), Math.floor(game.player.y + y1))
+      || game.map.search("chest", Math.floor(game.player.x + x2), Math.floor(game.player.y + y2))) return true;
     }
     switch(game.player.facing) {
       case "left":
@@ -28,6 +27,5 @@ game.collision = {
       default:
         return false;
     }
-
   }
 };

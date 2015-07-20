@@ -172,25 +172,25 @@ game.player = {
     };
     switch(this.facing) {
       case "left":
-        if(game.map.data[~~(this.x - 0.1)][~~this.y].entity === 5 || game.map.data[~~(this.x - 0.1)][~~this.y + 1].entity === 5) {
+        if(game.map.search("chest", ~~(this.x - 0.1), ~~this.y) || game.map.search("chest", ~~(this.x - 0.1), ~~this.y + 1)) {
           console.log("chest opened");
           chestSound();
         }
         break;
       case "up":
-        if(game.map.data[~~this.x][~~(this.y - 0.1)].entity === 5 || game.map.data[~~this.x + 1][~~(this.y - 0.1)].entity === 5) {
+        if(game.map.search("chest", ~~this.x, ~~(this.y - 0.1)) || game.map.search("chest", ~~this.x + 1, ~~(this.y - 0.1))) {
           console.log("chest opened");
           chestSound();
         }
         break;
       case "right":
-        if(game.map.data[~~(this.x + 1.1)][~~this.y].entity === 5 || game.map.data[~~(this.x + 1.1)][~~this.y + 1].entity === 5) {
+        if(game.map.search("chest", ~~(this.x + 1.1), ~~this.y) || game.map.search("chest", ~~(this.x + 1.1), ~~this.y + 1)) {
           console.log("chest opened");
           chestSound();
         }
         break;
       case "down":
-        if(game.map.data[~~this.x][~~(this.y + 1.1)].entity === 5 || game.map.data[~~this.x + 1][~~(this.y + 1.1)].entity === 5) {
+        if(game.map.search("chest", ~~this.x, ~~(this.y + 1.1)) || game.map.search("chest", ~~this.x + 1, ~~(this.y + 1.1))) {
           console.log("chest opened");
           chestSound();
         }
