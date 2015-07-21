@@ -144,6 +144,12 @@ game.map = {
 
     //Place chests
     var chests = [];
+    //Makes sure there is at least one chest
+    var room = this.rooms[game.math.random(0,this.roomCount - 1)];
+    var chestX = game.math.random(room.x + 1, room.x + room.width - 1);
+    var chestY = game.math.random(room.y + 1, room.y + room.height - 1);
+    this.layer[1][chestX][chestY].setType("chest");
+    chests.push(this.layer[1][chestX][chestY]);
     for (i = 1; i < this.roomCount - 1; i++) {
       var room = this.rooms[i];
       if(game.math.random(0,100) > 50) {
@@ -151,13 +157,14 @@ game.map = {
         //entrances so the player doesn't get blocked in by a chest
         var chestX = game.math.random(room.x + 1, room.x + room.width - 1);
         var chestY = game.math.random(room.y + 1, room.y + room.height - 1);
-        this.layer[1][chestX][chestY].setType("chest");
-        chests.push(this.layer[1][chestX][chestY]);
-
+        if(this.layer[1][chestX][chestY].type != "chest") {
+          this.layer[1][chestX][chestY].setType("chest");
+          chests.push(this.layer[1][chestX][chestY]);
+        }
       }
     }
     //Place key in a random chest
-    chests[game.math.random(0, chests.length - 1)].item = new game.Item("key", 1);
+    chests[game.math.random(0, chests.length - 1)].item = {name: "key", quanity: 1};
 
     //Auto Tile floor
     for (var x = 0; x < this.size; x++) {
@@ -195,10 +202,7 @@ game.map = {
               } else if(playhead <= 400) {
                 if(tile.item) {
                   game.render.alert(["You found a " + tile.item.name]);
-                  for(var i = 0; i < tile.item.quanity; i++) {
-                    game.player.items.push(tile.item);
-                  }
-
+                  game.item[tile.item.name] += tile.item.quanity;
                 } else {
                   game.render.alert(["You found nothing."]);
                 }

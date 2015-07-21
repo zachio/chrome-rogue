@@ -44,7 +44,8 @@ game.status = {
         content: [
           "Name: Chrome",
           "Level: " + game.level,
-          "Experience: " + game.player.exp
+          "Experience: " + game.player.exp,
+          "Items:"
         ],
         display: function() {
           for(var i = 0; i < this.content.length; i++) {
@@ -57,6 +58,12 @@ game.status = {
           }
         }
       };
+      for(var prop in game.item) {
+        if(game.item[prop]) {
+          text.content.push(prop + " " + game.item[prop]);
+        }
+
+      }
       game.render.ctx.font = "20px Arial";
       game.render.ctx.fillStyle = text.color;
       text.display();

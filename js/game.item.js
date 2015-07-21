@@ -1,4 +1,4 @@
-game.Item = function(name, quantity) {
-  this.name = name;
-  this.quanity = quantity;
+game.item = {
+  gold: 0,
+  key: 0
 };

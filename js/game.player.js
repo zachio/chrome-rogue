@@ -156,8 +156,8 @@ game.player = {
   },
   hasFinished: function (sound, enemy) {
     if(game.map.layer[1][Math.round(this.x)][Math.round(this.y)].type === "downstairs") {
-      if(game.player.findItem("key")) {
-        this.useItem("key");
+      if(game.item.key) {
+        game.item.key--;
         sound.play();
         //Create new game.map
         game.map.generate();
@@ -171,17 +171,6 @@ game.player = {
           ["The door is locked!",
           "Find the key!"]);
       }
-    }
-  },
-  findItem: function(name) {
-    for(var i = 0; i < this.items.length; i++) {
-      if(this.items[i].name === name) return true;
-    }
-    return false;
-  },
-  useItem: function(name) {
-    for(var i = 0; i < this.items.length; i++) {
-      if(this.items[i].name === name) this.items.splice(i, 1);
     }
   },
   tryChest: function() {

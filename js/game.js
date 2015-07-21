@@ -40,7 +40,7 @@ var game = {
       "combat",
       "enemy",
       "listeners",
-      "Item",
+      "item",
       "map",
       "math",
       "misc",
