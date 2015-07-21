@@ -30,6 +30,7 @@ game.Tile = function(x, y, type) {
         this.timeline = null;
         this.opened = false;
         this.message = false;
+        this.item = null;
         break;
     }
   };

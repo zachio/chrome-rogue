@@ -1,6 +1,7 @@
 'use strict'
 
 var game = {
+  key: false,
   level: 1,
   load: function(scripts, callback) {
     var start = Date.now();
@@ -39,6 +40,7 @@ var game = {
       "combat",
       "enemy",
       "listeners",
+      "Item",
       "map",
       "math",
       "misc",
@@ -60,6 +62,7 @@ var game = {
           game[prop].init();
         }
       }
+      game.enemy.init();
       loadImg.style.display = "none";
       game.loop();
     };

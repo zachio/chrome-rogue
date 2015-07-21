@@ -132,17 +132,18 @@ game.map = {
     }
     //Place start
     var room = this.rooms[0];
-    this.startX = game.math.random(room.x, room.x + room.width);
-    this.startY = game.math.random(room.y, room.y + room.height);
+    this.startX = game.math.random(room.x + 1, room.x + room.width - 1);
+    this.startY = game.math.random(room.y + 1, room.y + room.height - 1);
     this.layer[1][this.startX][this.startY].setType("upstairs");
 
     //Place end
     var room = this.rooms[this.rooms.length - 1];
-    var endX = game.math.random(room.x, room.x + room.width);
-    var endY = game.math.random(room.y, room.y + room.height);
+    var endX = game.math.random(room.x + 1, room.x + room.width - 1);
+    var endY = game.math.random(room.y + 1, room.y + room.height - 1);
     this.layer[1][endX][endY].setType("downstairs");
 
     //Place chests
+    var chests = [];
     for (i = 1; i < this.roomCount - 1; i++) {
       var room = this.rooms[i];
       if(game.math.random(0,100) > 50) {
@@ -151,8 +152,12 @@ game.map = {
         var chestX = game.math.random(room.x + 1, room.x + room.width - 1);
         var chestY = game.math.random(room.y + 1, room.y + room.height - 1);
         this.layer[1][chestX][chestY].setType("chest");
+        chests.push(this.layer[1][chestX][chestY]);
+
       }
     }
+    //Place key in a random chest
+    chests[game.math.random(0, chests.length - 1)].item = new game.Item("key", 1);
 
     //Auto Tile floor
     for (var x = 0; x < this.size; x++) {
@@ -188,8 +193,16 @@ game.map = {
               } else if(playhead <= 300) {
                 tile.cropY = 3 * 32;
               } else if(playhead <= 400) {
-                game.message = true;
-                game.render.message = "You opened a chest!";
+                if(tile.item) {
+                  game.render.alert(["You found a " + tile.item.name]);
+                  for(var i = 0; i < tile.item.quanity; i++) {
+                    game.player.items.push(tile.item);
+                  }
+
+                } else {
+                  game.render.alert(["You found nothing."]);
+                }
+
               }
             }
             break;

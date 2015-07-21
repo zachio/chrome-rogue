@@ -11,24 +11,28 @@ window.onkeydown = function (event) {
     case 65: // a
       game.player.facing = "left";
       game.player.moving.left = true;
+      game.message = false;
       break;
      //Up
     case 38:
     case 87: // w
       game.player.facing = "up";
        game.player.moving.up = true;
+       game.message = false;
        break;
      //Right
     case 39:
     case 68: // d
       game.player.facing = "right";
       game.player.moving.right = true;
+      game.message = false;
       break;
      //Down
     case 40:
     case 83: // s
       game.player.facing = "down";
       game.player.moving.down = true;
+      game.message = false;
       break;
     //options
     case 49: // 1
@@ -42,7 +46,7 @@ window.onkeydown = function (event) {
       game.render.scale--;
       break;
     case 32: // Space
-        if(game.collision.isChest()) game.player.tryChest();
+        if(game.collision.isChest() || game.message) game.player.tryChest();
         else game.combat.strike();
         game.message = false;
       break;

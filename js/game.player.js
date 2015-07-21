@@ -4,6 +4,7 @@ game.player = {
   cropX: null,
   cropY: null,
   exp: 0,
+  items: [],
   moving: {
     left: false,
     up: false,
@@ -155,14 +156,32 @@ game.player = {
   },
   hasFinished: function (sound, enemy) {
     if(game.map.layer[1][Math.round(this.x)][Math.round(this.y)].type === "downstairs") {
-      sound.play();
-      //Create new game.map
-      game.map.generate();
-      //Position player in first room
-      this.position(game.map.startX, game.map.startY);
-      enemy.enemies = [];
-      enemy.generate(game.map);
-      game.level++;
+      if(game.player.findItem("key")) {
+        this.useItem("key");
+        sound.play();
+        //Create new game.map
+        game.map.generate();
+        //Position player in first room
+        this.position(game.map.startX, game.map.startY);
+        enemy.enemies = [];
+        enemy.generate(game.map);
+        game.level++;
+      } else {
+        game.render.alert(
+          ["The door is locked!",
+          "Find the key!"]);
+      }
+    }
+  },
+  findItem: function(name) {
+    for(var i = 0; i < this.items.length; i++) {
+      if(this.items[i].name === name) return true;
+    }
+    return false;
+  },
+  useItem: function(name) {
+    for(var i = 0; i < this.items.length; i++) {
+      if(this.items[i].name === name) this.items.splice(i, 1);
     }
   },
   tryChest: function() {

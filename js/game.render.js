@@ -87,14 +87,27 @@ game.render = {
     this.ctx.fillStyle = "white";
     this.ctx.fillText("PAUSE", window.innerWidth / 2, window.innerHeight / 2 + 5);
   },
-  alert: function() {
+  alert: function(message) {
+    this.message = message || this.message;
+    game.message = true;
     this.ctx.font = "30px Arial";
     this.ctx.textAlign = "center";
     this.ctx.fillStyle = "rgba(0,0,0,0.9)";
-    this.ctx.fillRect(window.innerWidth / 2 - 400 / 2, window.innerHeight / 2 - 200 / 2, 400,200);
+    var width = 400;
+    var lineHeight = 40;
+    var height = lineHeight * this.message.length + 60;
+    this.ctx.fillRect(
+      window.innerWidth / 2 - width / 2,
+      window.innerHeight / 3 - height / 2,
+      width, height);
     this.ctx.fillStyle = "white";
-    this.ctx.fillText(this.message , window.innerWidth / 2, window.innerHeight / 2 + 5);
+    for(var i = 0; i < this.message.length; i++) {
+      this.ctx.fillText(this.message[i] ,
+        window.innerWidth / 2,
+        window.innerHeight / 3 + (lineHeight * i));
+    }
+
   },
-  message: ""
+  message: null
 
 };
