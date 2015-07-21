@@ -179,14 +179,17 @@ game.map = {
         var tile = this.layer[1][x][y];
         switch(tile.type) {
           case "chest":
-            if(Date.now() - tile.timeline < 300) {
-              var playhead = Date.now() - tile.timeline;
+            var playhead = Date.now() - tile.timeline;
+            if(playhead < 500) {
               if(playhead <= 100) {
                 tile.cropY = 1 * 32;
-              } else if(playhead >= 100 && playhead <= 200) {
+              } else if(playhead <= 200) {
                 tile.cropY = 2 * 32;
-              } else if(playhead >= 200) {
+              } else if(playhead <= 300) {
                 tile.cropY = 3 * 32;
+              } else if(playhead <= 400) {
+                game.message = true;
+                game.render.message = "You opened a chest!";
               }
             }
             break;

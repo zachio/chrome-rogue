@@ -76,6 +76,7 @@ game.render = {
       "game.level: " + game.level
     ]);
     game.status.render();
+    if(game.message) this.alert();
     if(game.paused) this.pause();
   },
   pause: function() {
@@ -85,6 +86,15 @@ game.render = {
     this.ctx.fillRect(window.innerWidth / 2 - 200 / 2, window.innerHeight / 2 - 50 / 2, 200,50);
     this.ctx.fillStyle = "white";
     this.ctx.fillText("PAUSE", window.innerWidth / 2, window.innerHeight / 2 + 5);
-  }
+  },
+  alert: function() {
+    this.ctx.font = "30px Arial";
+    this.ctx.textAlign = "center";
+    this.ctx.fillStyle = "rgba(0,0,0,0.9)";
+    this.ctx.fillRect(window.innerWidth / 2 - 400 / 2, window.innerHeight / 2 - 200 / 2, 400,200);
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText(this.message , window.innerWidth / 2, window.innerHeight / 2 + 5);
+  },
+  message: ""
 
 };

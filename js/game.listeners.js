@@ -44,6 +44,7 @@ window.onkeydown = function (event) {
     case 32: // Space
         if(game.collision.isChest()) game.player.tryChest();
         else game.combat.strike();
+        game.message = false;
       break;
     case 77: // M
       if(game.music.muted) {

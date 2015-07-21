@@ -179,10 +179,10 @@ game.player = {
     };
     var open = function(x, y) {
       var chest = game.map.layer[1][Math.floor(game.player.x + x)][Math.floor(game.player.y + y)];
-      if(!chest.open) {
+      if(!chest.opened) {
         sound();
         chest.timeline = Date.now();
-        chest.open = true;
+        chest.opened = true;
       }
     };
     var sound = function() {

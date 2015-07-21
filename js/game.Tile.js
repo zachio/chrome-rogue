@@ -28,7 +28,8 @@ game.Tile = function(x, y, type) {
       case "chest":
         this.image = game.assets.sprite.chest;
         this.timeline = null;
-        this.open = false;
+        this.opened = false;
+        this.message = false;
         break;
     }
   };

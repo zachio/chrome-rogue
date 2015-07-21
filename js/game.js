@@ -69,7 +69,7 @@ var game = {
     game.time.update();
     game.render.clearScreen();
     game.render.frame();
-    if(!game.paused) {
+    if(!game.paused && !game.message) {
       game.update();
     }
     requestAnimationFrame(game.tick);
@@ -78,6 +78,7 @@ var game = {
   	requestAnimationFrame(game.tick);
   },
   paused: false,
+  message: false,
   update: function() {
     this.player.update();
     this.combat.update();
