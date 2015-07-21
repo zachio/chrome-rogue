@@ -196,6 +196,20 @@ game.assets = {
         }
         return canvas;
       }
+      function Canvas(image, cropX, cropY, width, height) {
+        var canvas = document.createElement("canvas");
+        canvas.width = width * 32;
+        canvas.height = height * 32;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(
+          image,
+          cropX * 32, cropY * 32,
+          canvas.width, canvas.height,
+          0, 0,
+          canvas.width, canvas.height
+        );
+        return canvas;
+      }
       var finish = function() {
         console.log("load time: ", Date.now() - loadStart, "ms");
         self.sprite = {
@@ -203,7 +217,7 @@ game.assets = {
             wall: new Sprite(game.assets.images[0], 0.5, 13.5),
             upstairs: new Sprite(game.assets.images[2], 13, 0),
             downstairs: new Sprite(game.assets.images[2], 5, 15),
-            chest: new Sprite(game.assets.images[4], 6, 4),
+            chest: Canvas(game.assets.images[4], 6, 4, 1, 4),
             rat: new Sprite(game.assets.images[5], 4, 0),
             deadrat: new Sprite(game.assets.images[5], 3, 0),
         };

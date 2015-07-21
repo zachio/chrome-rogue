@@ -90,13 +90,10 @@ game.map = {
     }
 
     //Build Cooridors
-    for(var i = 0; i < this.roomCount; i++) {
+    for(var i = 0; i < this.roomCount - 1; i++) {
       var roomA = this.rooms[i];
-      if(i < this.roomCount - 1) {
-        var roomB = this.rooms[i + 1];
-      } else {
-        var roomB = this.rooms[0];
-      }
+      var roomB = this.rooms[i + 1];
+
       pointA = {
         x: game.math.random(roomA.x, roomA.x + roomA.width),
         y: game.math.random(roomA.y, roomA.y + roomA.height)
@@ -173,6 +170,28 @@ game.map = {
             if(this.layer[0][x-1][y].type === "floor") cropX += 8;
           tile.cropX = cropX * tile.cropWidth;
         }
+      }
+    }
+  },
+  update: function() {
+    for(var x = 0; x < this.size; x++) {
+      for(var y = 0; y < this.size; y++) {
+        var tile = this.layer[1][x][y];
+        switch(tile.type) {
+          case "chest":
+            if(Date.now() - tile.timeline < 300) {
+              var playhead = Date.now() - tile.timeline;
+              if(playhead <= 100) {
+                tile.cropY = 1 * 32;
+              } else if(playhead >= 100 && playhead <= 200) {
+                tile.cropY = 2 * 32;
+              } else if(playhead >= 200) {
+                tile.cropY = 3 * 32;
+              }
+            }
+            break;
+        }
+
       }
     }
   }

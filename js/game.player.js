@@ -165,13 +165,43 @@ game.player = {
       game.level++;
     }
   },
-  openChest: function() {
-    var chestSound = function() {
+  tryChest: function() {
+    var tryOpen = function(x1, x2, y1, y2) {
+      if(game.map.layer[1][Math.floor(game.player.x + x1)][Math.floor(game.player.y + y1)].type === "chest") {
+        open(x1, y1);
+        return
+      }
+
+      if(game.map.layer[1][Math.floor(game.player.x + x2)][Math.floor(game.player.y + y2)].type === "chest") {
+        open(x2, y2);
+        return;
+      }
+    };
+    var open = function(x, y) {
+      var chest = game.map.layer[1][Math.floor(game.player.x + x)][Math.floor(game.player.y + y)];
+      if(!chest.open) {
+        sound();
+        chest.timeline = Date.now();
+        chest.open = true;
+      }
+    };
+    var sound = function() {
       game.sound.effects.chest.load();
       game.sound.effects.chest.play();
     };
-    if(game.collision.isChest()) {
-      chestSound();
+    switch(game.player.facing) {
+      case "left":
+        tryOpen(-0.1,-0.1,0,1);
+        break;
+      case "up":
+        tryOpen(0,1,-0.1,0);
+        break;
+      case "right":
+        tryOpen(1.1,1.1,0,1);
+        break;
+      case "down":
+        tryOpen(0,1,1.2,1.2);
+        break;
     }
   }
 };

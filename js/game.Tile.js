@@ -27,6 +27,8 @@ game.Tile = function(x, y, type) {
         break;
       case "chest":
         this.image = game.assets.sprite.chest;
+        this.timeline = null;
+        this.open = false;
         break;
     }
   };

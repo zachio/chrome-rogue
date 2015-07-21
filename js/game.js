@@ -81,6 +81,7 @@ var game = {
   update: function() {
     this.player.update();
     this.combat.update();
+    this.map.update();
     this.enemy.update();
     this.sound.update();
   }
