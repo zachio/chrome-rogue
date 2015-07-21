@@ -134,7 +134,7 @@ game.map = {
     var room = this.rooms[0];
     this.startX = game.math.random(room.x + 1, room.x + room.width - 1);
     this.startY = game.math.random(room.y + 1, room.y + room.height - 1);
-    this.layer[1][this.startX][this.startY].setType("upstairs");
+    if(game.level) this.layer[1][this.startX][this.startY].setType("upstairs");
 
     //Place end
     var room = this.rooms[this.rooms.length - 1];

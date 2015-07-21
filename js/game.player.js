@@ -11,7 +11,7 @@ game.player = {
     right: false,
     down: false
   },
-  facing: "down",
+  facing: "lying",
   speed: 4,
   size: 32,
   image: false,
@@ -106,6 +106,9 @@ game.player = {
         this.cropX = (this.moving.down) ? walkAnimation() : 1 * 32;
         this.cropY = 4 * 32;
         break;
+      case "lying":
+        this.cropX = 0;
+        this.cropY = 3 * 32;
     }
     //Sprinting Animation
     if(this.sprinting) {
