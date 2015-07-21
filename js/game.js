@@ -81,7 +81,6 @@ var game = {
   update: function() {
     this.player.update();
     this.combat.update();
-    this.player.hasBeatStage(this.assets.audio[2], this.enemy);
     this.enemy.update();
     this.sound.update();
   }

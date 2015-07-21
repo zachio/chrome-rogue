@@ -4,7 +4,7 @@ game.map = {
   minRoom: 5,
   maxRoom: 15,
   rooms: [],
-  data: [],
+  layer: [[],[]],
   entities: [],
   startX: 0,
   startY: 0,
@@ -22,7 +22,7 @@ game.map = {
     return false;
   },
   generate: function() {
-    this.data = [];
+    this.layer = [[],[]];
     this.rooms = [];
     this.roomCount = game.math.random(this.minRoom, this.maxRoom);
 
@@ -49,12 +49,14 @@ game.map = {
     var room_min_size = game.math.random(this.minRoom, this.maxRoom);
     var room_max_size = game.math.random(this.minRoom, this.maxRoom);
 
-    //Generate map 2d array
-    for(var x = 0; x < this.size; x++) {
-      this.data[x] = [];
-      for(var y = 0; y < this.size; y++) {
-        //Add tile object
-        this.data[x][y] = new game.Tile(x, y);
+    //Generate map layers
+    for(var lvl = 0; lvl < this.layer.length; lvl++) {
+      for(var x = 0; x < this.size; x++) {
+        this.layer[lvl][x] = [];
+        for(var y = 0; y < this.size; y++) {
+          //Add tile object
+          this.layer[lvl][x][y] = new game.Tile(x, y);
+        }
       }
     }
 
@@ -82,7 +84,7 @@ game.map = {
       var room = this.rooms[i];
       for (var x = room.x; x < room.x + room.width; x++) {
         for (var y = room.y; y < room.y + room.height; y++) {
-            this.data[x][y].setType("floor");
+            this.layer[0][x][y].setType("floor");
         }
       }
     }
@@ -112,19 +114,19 @@ game.map = {
              if (pointB.y > pointA.y) pointB.y--;
              else pointB.y++;
          }
-        this.data[pointB.x][pointB.y].setType("floor");
+        this.layer[0][pointB.x][pointB.y].setType("floor");
       }
     }
 
     //Place walls
     for (var x = 0; x < this.size; x++) {
       for (var y = 0; y < this.size; y++) {
-        if (this.data[x][y].type === "floor") {
+        if (this.layer[0][x][y].type === "floor") {
           for (var xx = x - 1; xx <= x + 1; xx++) {
             for (var yy = y - 1; yy <= y + 1; yy++) {
               //Wall
-              if (this.data[xx][yy].type == null) {
-                this.data[xx][yy].setType("wall");
+              if (this.layer[0][xx][yy].type == null) {
+                this.layer[0][xx][yy].setType("wall");
               }
             }
           }
@@ -135,13 +137,13 @@ game.map = {
     var room = this.rooms[0];
     this.startX = game.math.random(room.x, room.x + room.width);
     this.startY = game.math.random(room.y, room.y + room.height);
-    this.entities.push(new game.Tile(this.startX, this.startY, "upstairs"));
+    this.layer[1][this.startX][this.startY].setType("upstairs");
 
     //Place end
     var room = this.rooms[this.rooms.length - 1];
     var endX = game.math.random(room.x, room.x + room.width);
     var endY = game.math.random(room.y, room.y + room.height);
-    this.entities.push(new game.Tile(endX, endY, "downstairs"));
+    this.layer[1][endX][endY].setType("downstairs");
 
     //Place chests
     for (i = 1; i < this.roomCount - 1; i++) {
@@ -151,24 +153,24 @@ game.map = {
         //entrances so the player doesn't get blocked in by a chest
         var chestX = game.math.random(room.x + 1, room.x + room.width - 1);
         var chestY = game.math.random(room.y + 1, room.y + room.height - 1);
-        this.entities.push(new game.Tile(chestX, chestY, "chest"));
+        this.layer[1][chestX][chestY].setType("chest");
       }
     }
 
     //Auto Tile floor
     for (var x = 0; x < this.size; x++) {
       for (var y = 0; y < this.size; y++) {
-        var tile = this.data[x][y];
+        var tile = this.layer[0][x][y];
         if(tile.type === "floor") {
           var cropX = 0;
-          if(typeof this.data[x][y-1] != "undefined")
-            if (this.data[x][y-1].type === "floor") cropX +=  1;
-          if(typeof this.data[x+1] != "undefined")
-            if(this.data[x+1][y].type === "floor") cropX += 2;
-          if(typeof this.data[x][y+1] != "undefined")
-            if(this.data[x][y+1].type === "floor") cropX += 4;
-          if(typeof this.data[x-1] != "undefined")
-            if(this.data[x-1][y].type === "floor") cropX += 8;
+          if(typeof this.layer[0][x][y-1] != "undefined")
+            if (this.layer[0][x][y-1].type === "floor") cropX +=  1;
+          if(typeof this.layer[0][x+1] != "undefined")
+            if(this.layer[0][x+1][y].type === "floor") cropX += 2;
+          if(typeof this.layer[0][x][y+1] != "undefined")
+            if(this.layer[0][x][y+1].type === "floor") cropX += 4;
+          if(typeof this.layer[0][x-1] != "undefined")
+            if(this.layer[0][x-1][y].type === "floor") cropX += 8;
           tile.cropX = cropX * tile.cropWidth;
         }
       }

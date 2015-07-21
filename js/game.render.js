@@ -47,37 +47,25 @@ game.render = {
     var endRenderX = (~~(game.player.x + window.innerWidth / 2 / game.map.tileSize + 2) > game.map.size)? game.map.size : ~~(game.player.x + window.innerWidth / 2 / game.map.tileSize + 2);
     var startRenderY = (~~(game.player.y - window.innerWidth / 2 / game.map.tileSize) < 0) ? 0 : ~~(game.player.y - window.innerWidth / 2 / game.map.tileSize);
     var endRenderY = (~~(game.player.y + window.innerWidth / 2 / game.map.tileSize + 2) > game.map.size)? game.map.size : ~~(game.player.y + window.innerWidth / 2 / game.map.tileSize + 2);
-    for(var x = startRenderX; x < endRenderX; x++) {
-      for(var y = startRenderY; y < endRenderY; y++) {
-        var tile = game.map.data[x][y];
-        var drawX = ~~(tile.size * tile.x - game.player.x * tile.size + window.innerWidth / 2 - game.map.tileSize / 2);
-        var drawY = ~~(tile.size * tile.y - game.player.y * tile.size + window.innerHeight / 2 - game.map.tileSize / 2);
-        if(game.map.data[x][y].type) {
-          this.ctx.drawImage(
-            tile.image,
-            tile.cropX, tile.cropY,
-            tile.cropWidth, tile.cropHeight,
-            drawX, drawY,
-            tile.size, tile.size
-          );
+    for(var lvl = 0; lvl < game.map.layer.length; lvl++) {
+      for(var x = startRenderX; x < endRenderX; x++) {
+        for(var y = startRenderY; y < endRenderY; y++) {
+          var tile = game.map.layer[lvl][x][y];
+          var drawX = ~~(tile.size * tile.x - game.player.x * tile.size + window.innerWidth / 2 - game.map.tileSize / 2);
+          var drawY = ~~(tile.size * tile.y - game.player.y * tile.size + window.innerHeight / 2 - game.map.tileSize / 2);
+          if(tile.type) {
+            this.ctx.drawImage(
+              tile.image,
+              tile.cropX, tile.cropY,
+              tile.cropWidth, tile.cropHeight,
+              drawX, drawY,
+              tile.size, tile.size
+            );
+          }
         }
       }
     }
 
-    //Draw entities
-    for(var i = 0; i < game.map.entities.length; i++) {
-      var tile = game.map.entities[i];
-      var drawX = ~~(tile.size * tile.x - game.player.x * tile.size + window.innerWidth / 2 - game.map.tileSize / 2);
-      var drawY = ~~(tile.size * tile.y - game.player.y * tile.size + window.innerHeight / 2 - game.map.tileSize / 2);
-      var tile = game.map.entities[i];
-      this.ctx.drawImage(
-        tile.image,
-        tile.cropX, tile.cropY,
-        tile.cropWidth, tile.cropHeight,
-        drawX, drawY,
-        tile.size, tile.size
-      );
-    }
     game.enemy.render();
     game.player.render();
     this.messageBox(20, 20, 200,

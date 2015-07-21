@@ -151,11 +151,11 @@ game.player = {
       && !game.collision.detect(this,0.5, modifier + 1.3)){
       this.y += speed;
     }
+    this.hasFinished(game.assets.audio[2], game.enemy);
   },
-  hasBeatStage: function (sound, enemy) {
-    if(game.map.data[Math.round(this.x)][Math.round(this.y)].entity === 4 ) {
+  hasFinished: function (sound, enemy) {
+    if(game.map.layer[1][Math.round(this.x)][Math.round(this.y)].type === "downstairs") {
       sound.play();
-      console.log("You win!");
       //Create new game.map
       game.map.generate();
       //Position player in first room
@@ -170,31 +170,8 @@ game.player = {
       game.sound.effects.chest.load();
       game.sound.effects.chest.play();
     };
-    switch(this.facing) {
-      case "left":
-        if(game.map.search("chest", ~~(this.x - 0.1), ~~this.y) || game.map.search("chest", ~~(this.x - 0.1), ~~this.y + 1)) {
-          console.log("chest opened");
-          chestSound();
-        }
-        break;
-      case "up":
-        if(game.map.search("chest", ~~this.x, ~~(this.y - 0.1)) || game.map.search("chest", ~~this.x + 1, ~~(this.y - 0.1))) {
-          console.log("chest opened");
-          chestSound();
-        }
-        break;
-      case "right":
-        if(game.map.search("chest", ~~(this.x + 1.1), ~~this.y) || game.map.search("chest", ~~(this.x + 1.1), ~~this.y + 1)) {
-          console.log("chest opened");
-          chestSound();
-        }
-        break;
-      case "down":
-        if(game.map.search("chest", ~~this.x, ~~(this.y + 1.1)) || game.map.search("chest", ~~this.x + 1, ~~(this.y + 1.1))) {
-          console.log("chest opened");
-          chestSound();
-        }
-        break;
+    if(game.collision.isChest()) {
+      chestSound();
     }
   }
 };
