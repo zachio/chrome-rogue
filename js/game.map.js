@@ -6,8 +6,10 @@ game.map = {
   rooms: [],
   layer: [[],[]],
   entities: [],
-  startX: 0,
-  startY: 0,
+  entranceX: 0,
+  entranceY: 0,
+  exitX: 0,
+  exitY: 0,
   roomCount: 0,
   init: function() {
     this.generate();
@@ -132,15 +134,15 @@ game.map = {
     }
     //Place start
     var room = this.rooms[0];
-    this.startX = game.math.random(room.x + 1, room.x + room.width - 1);
-    this.startY = game.math.random(room.y + 1, room.y + room.height - 1);
-    if(game.level) this.layer[1][this.startX][this.startY].setType("upstairs");
+    this.entranceX = game.math.random(room.x + 1, room.x + room.width - 1);
+    this.entranceY = game.math.random(room.y + 1, room.y + room.height - 1);
+    if(game.level) this.layer[1][this.entranceX][this.entranceY].setType("upstairs");
 
     //Place end
     var room = this.rooms[this.rooms.length - 1];
-    var endX = game.math.random(room.x + 1, room.x + room.width - 1);
-    var endY = game.math.random(room.y + 1, room.y + room.height - 1);
-    this.layer[1][endX][endY].setType("downstairs");
+    this.exitX = game.math.random(room.x + 1, room.x + room.width - 1);
+    this.exitY = game.math.random(room.y + 1, room.y + room.height - 1);
+    this.layer[1][this.exitX][this.exitY].setType("downstairs");
 
     //Place chests
     var chests = [];
@@ -206,7 +208,6 @@ game.map = {
                 } else {
                   game.render.alert(["You found nothing."]);
                 }
-
               }
             }
             break;

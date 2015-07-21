@@ -19,7 +19,7 @@ game.player = {
   timeline: Date.now(),
   sprinting: false,
   init: function() {
-    this.position(game.map.startX, game.map.startY);
+    this.position(game.map.entranceX, game.map.entranceY);
   },
   position: function(x, y) {
     this.x = x;
@@ -155,20 +155,37 @@ game.player = {
       && !game.collision.detect(this,0.5, modifier + 1.3)){
       this.y += speed;
     }
-    this.hasFinished(game.assets.audio[2], game.enemy);
+    if(game.level) this.entrance();
+    this.exit();
   },
-  hasFinished: function (sound, enemy) {
-    if(game.map.layer[1][Math.round(this.x)][Math.round(this.y)].type === "downstairs") {
-      if(game.item.key) {
-        game.item.key--;
-        sound.play();
+  entrance: function() {
+    if(game.map.layer[1][Math.round(this.x)][Math.round(this.y)].type === "upstairs") {
+        game.assets.audio[2].play();
+        game.level--;
+        //Load level seed so player can go back a level
+        game.math.seed = game.seeds[game.level];
         //Create new game.map
         game.map.generate();
         //Position player in first room
-        this.position(game.map.startX, game.map.startY);
-        enemy.enemies = [];
-        enemy.generate(game.map);
+        this.position(game.map.exitX - 1, game.map.exitY);
+        game.enemy.enemies = [];
+        game.enemy.generate(game.map);
+      }
+  },
+  exit: function () {
+    if(game.map.layer[1][Math.round(this.x)][Math.round(this.y)].type === "downstairs") {
+      if(game.item.key) {
+        game.item.key--;
+        game.assets.audio[2].play();
         game.level++;
+        //Save level seed so player can go back to this level
+        game.seeds.push(game.math.seed);
+        //Create new game.map
+        game.map.generate();
+        //Position player in first room
+        this.position(game.map.entranceX + 1, game.map.entranceY);
+        game.enemy.enemies = [];
+        game.enemy.generate(game.map);
       } else {
         game.render.alert(
           ["The door is locked!",
