@@ -179,7 +179,7 @@ game.player = {
         game.assets.audio[2].play();
         game.level++;
         //Save level seed so player can go back to this level
-        game.seeds.push(game.math.seed);
+        if(!game.seeds[game.level]) game.seeds.push(game.math.seed);
         //Create new game.map
         game.map.generate();
         //Position player in first room
