@@ -14,6 +14,7 @@ game.player = {
   facing: "lying",
   speed: 4,
   size: 32,
+  stamina: 5000,
   image: false,
   //timeline is used for animating the player
   timeline: Date.now(),
@@ -110,8 +111,9 @@ game.player = {
         this.cropX = 0;
         this.cropY = 3 * 32;
     }
-    //Sprinting Animation
+    //Sprinting
     if(this.sprinting) {
+      //Tiles
       switch(this.facing) {
         case "left":
           this.cropX = (this.moving.left) ? sprintAnimation() : 1 * 32;
@@ -130,6 +132,16 @@ game.player = {
           this.cropY = 4 * 32;
           break;
       }
+      //Stamina
+      if(game.player.stamina > 0) {
+        game.player.stamina -= game.movement.speedPerSecond(1000);
+      } else {
+        game.player.speed = 4;
+        game.player.sprinting = false;
+      }
+    } else {
+      if(game.player.stamina < 5000) game.player.stamina += game.movement.speedPerSecond(500);
+      else game.player.stamina = 5000;
     }
     if(Date.now() - game.combat.coolDown < 200) this.cropX = 0;
     var speed = game.movement.speedPerSecond(this.speed);

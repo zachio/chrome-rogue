@@ -73,7 +73,8 @@ game.render = {
       "game.player.x: " + ~~game.player.x,
       "game.player.y: " + ~~game.player.y,
       "game.muted (press M): " + game.music.muted,
-      "game.level: " + game.level
+      "game.level: " + game.level,
+      "player.stamina: " + game.player.stamina
     ]);
     game.status.render();
     if(game.message) this.alert();
