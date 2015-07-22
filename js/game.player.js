@@ -160,10 +160,10 @@ game.player = {
   },
   entrance: function() {
     if(game.map.layer[1][Math.round(this.x)][Math.round(this.y)].type === "upstairs") {
+        //Save seed chest state
+        game.seeds[game.level].chests = game.map.chests;
         game.assets.audio[2].play();
         game.level--;
-        //Load level seed so player can go back a level
-        game.math.seed = game.seeds[game.level];
         //Create new game.map
         game.map.generate();
         //Position player in first room
@@ -174,12 +174,14 @@ game.player = {
   },
   exit: function () {
     if(game.map.layer[1][Math.round(this.x)][Math.round(this.y)].type === "downstairs") {
-      if(game.item.key) {
-        game.item.key--;
+      if(game.item.key || game.seeds[game.level + 1]) {
+        //Save seed chest state
+        game.seeds[game.level].chests = game.map.chests;
         game.assets.audio[2].play();
         game.level++;
-        //Save level seed so player can go back to this level
-        if(!game.seeds[game.level]) game.seeds.push(game.math.seed);
+        //Decrement key
+        if(!game.seeds[game.level]) game.item.key--;
+
         //Create new game.map
         game.map.generate();
         //Position player in first room

@@ -1,4 +1,5 @@
 game.map = {
+  chests: [],
   size: 64,
   tileSize: 32,
   minRoom: 5,
@@ -24,6 +25,11 @@ game.map = {
     return false;
   },
   generate: function() {
+    //Save seed id
+    if(!game.seeds[game.level]) game.seeds[game.level] = {id: game.math.seed, chests: null};
+    //Load the seed to replay the level
+    else game.math.seed = game.seeds[game.level].id;
+
     this.layer = [[],[]];
     this.rooms = [];
     this.roomCount = game.math.random(this.minRoom, this.maxRoom);
@@ -144,29 +150,41 @@ game.map = {
     this.exitY = game.math.random(room.y + 1, room.y + room.height - 1);
     this.layer[1][this.exitX][this.exitY].setType("downstairs");
 
-    //Place chests
-    var chests = [];
-    //Makes sure there is at least one chest
-    var room = this.rooms[game.math.random(0,this.roomCount - 1)];
-    var chestX = game.math.random(room.x + 1, room.x + room.width - 1);
-    var chestY = game.math.random(room.y + 1, room.y + room.height - 1);
-    this.layer[1][chestX][chestY].setType("chest");
-    chests.push(this.layer[1][chestX][chestY]);
-    for (i = 1; i < this.roomCount - 1; i++) {
-      var room = this.rooms[i];
-      if(game.math.random(0,100) > 50) {
-        //This spawns a game.math.random chest in the room at least 1 tile from cooridor
-        //entrances so the player doesn't get blocked in by a chest
-        var chestX = game.math.random(room.x + 1, room.x + room.width - 1);
-        var chestY = game.math.random(room.y + 1, room.y + room.height - 1);
-        if(this.layer[1][chestX][chestY].type != "chest") {
-          this.layer[1][chestX][chestY].setType("chest");
-          chests.push(this.layer[1][chestX][chestY]);
+
+    //Chests
+    if(game.seeds[game.level].chests) {
+      //Load chest state
+      this.chests = game.seeds[game.level].chests;
+      for(var i = 0; i < this.chests.length; i++) {
+        var chest = this.chests[i];
+        this.layer[1][chest.x][chest.y] =  chest;
+      }
+    } else {
+      console.log("generate chest")
+      //Generate new chests
+      this.chests = []; //Reset array
+      var room = this.rooms[game.math.random(0,this.roomCount - 1)];
+      var chestX = game.math.random(room.x + 1, room.x + room.width - 1);
+      var chestY = game.math.random(room.y + 1, room.y + room.height - 1);
+      this.layer[1][chestX][chestY].setType("chest");
+      this.chests.push(this.layer[1][chestX][chestY]);
+      for (i = 1; i < this.roomCount - 1; i++) {
+        var room = this.rooms[i];
+        if(game.math.random(0,100) > 50) {
+          //This spawns a game.math.random chest in the room at least 1 tile from cooridor
+          //entrances so the player doesn't get blocked in by a chest
+          var chestX = game.math.random(room.x + 1, room.x + room.width - 1);
+          var chestY = game.math.random(room.y + 1, room.y + room.height - 1);
+          if(this.layer[1][chestX][chestY].type != "chest") {
+            this.layer[1][chestX][chestY].setType("chest");
+            this.chests.push(this.layer[1][chestX][chestY]);
+          }
         }
       }
+      //Place key in a random chest
+      this.chests[game.math.random(0, this.chests.length - 1)].item = {name: "key", quanity: 1};
     }
-    //Place key in a random chest
-    chests[game.math.random(0, chests.length - 1)].item = {name: "key", quanity: 1};
+
 
     //Auto Tile floor
     for (var x = 0; x < this.size; x++) {
@@ -212,7 +230,6 @@ game.map = {
             }
             break;
         }
-
       }
     }
   }

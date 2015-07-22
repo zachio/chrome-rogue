@@ -57,7 +57,6 @@ var game = {
       game.assets.load(init);
     });
     var init = function() {
-      game.seeds.push(game.math.seed);
       //Automagically call init with new game parts
       for(var prop in game) {
         if(game[prop].hasOwnProperty('init')) {
