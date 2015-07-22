@@ -12,6 +12,8 @@ game.enemy = {
       this.startX = x;
       this.speed = 5;
       this.facing = "right";
+      this.directionPlayhead = Date.now();
+      this.directionTimeline = game.math.random(1000, 2000);
     }
     //Place rats
     for(var i = 0; i < game.map.rooms.length; i++) {
@@ -72,6 +74,7 @@ game.enemy = {
       else if(playhead >= 300 && playhead <= 400)
         enemy.cropX = 4 * 32;
       else this.timeline = Date.now();
+      //Enemy Direction
       switch(enemy.facing) {
         case "left":
           enemy.cropY = 1 * 32;
@@ -80,6 +83,13 @@ game.enemy = {
           else
             enemy.facing = "right";
           break;
+        case "up":
+          enemy.cropY = 3 * 32;
+          if(!game.collision.detect(enemy, 0.9, -speed))
+            enemy.y -= speed;
+          else
+            enemy.facing = "down";
+          break;
         case "right":
           enemy.cropY = 2 * 32;
           if(!game.collision.detect(enemy, speed + 1, 0.9))
@@ -87,6 +97,20 @@ game.enemy = {
           else
             enemy.facing = "left";
           break;
+        case "down":
+          enemy.cropY = 0 * 32;
+          if(!game.collision.detect(enemy, 0.9, speed))
+            enemy.y += speed;
+          else
+            enemy.facing = "up";
+          break;
+      }
+      //Switch Direction
+      if(Date.now() - enemy.directionPlayhead > enemy.directionTimeline) {
+        var directions = ["left","up","right","down"];
+        enemy.facing = directions[game.math.random(0,3)];
+        enemy.directionPlayhead = Date.now();
+        enemy.directionTimeline = game.math.random(1000, 2000);
       }
     }
   }
