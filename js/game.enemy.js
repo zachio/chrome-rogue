@@ -99,7 +99,7 @@ game.enemy = {
           break;
         case "down":
           enemy.cropY = 0 * 32;
-          if(!game.collision.detect(enemy, 0.9, speed))
+          if(!game.collision.detect(enemy, 0.9, speed + 1))
             enemy.y += speed;
           else
             enemy.facing = "up";

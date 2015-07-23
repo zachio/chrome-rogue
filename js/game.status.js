@@ -69,6 +69,27 @@ game.status = {
       text.display();
 
     game.render.ctx.restore();
+
+    //Player Quick Stats
+    this.quickStats();
   },
-  opacity: 0
+  opacity: 0,
+  quickStats: function() {
+    var ctx = game.render.ctx;
+    var bar = {
+      width: 100,
+      height: 10,
+      x: 60,
+      y: 71
+    };
+    var lineHeight = 20;
+    game.render.messageBox(20,20,200,["Chrome", "Level: " + game.player.level, "HP:", "S:"]);
+    ctx.strokeStyle = "white";
+    ctx.fillStyle = "red";
+    ctx.fillRect(bar.x, bar.y, bar.width * game.player.hp / game.player.hpMax, bar.height);
+    ctx.strokeRect(bar.x, bar.y , bar.width, bar.height);
+    ctx.fillStyle = "lime";
+    ctx.fillRect(bar.x, bar.y + lineHeight, bar.width * game.player.stamina, bar.height);
+    ctx.strokeRect(bar.x, bar.y + lineHeight, bar.width, bar.height);
+  }
 };

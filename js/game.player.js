@@ -1,9 +1,12 @@
 game.player = {
   x: 0,
   y: 0,
+  hp: 10,
+  hpMax: 10,
   cropX: null,
   cropY: null,
   exp: 0,
+  level: 0,
   items: [],
   moving: {
     left: false,
@@ -14,7 +17,7 @@ game.player = {
   facing: "lying",
   speed: 4,
   size: 32,
-  stamina: 5000,
+  stamina: 1,
   image: false,
   //timeline is used for animating the player
   timeline: Date.now(),
@@ -134,14 +137,14 @@ game.player = {
       }
       //Stamina
       if(game.player.stamina > 0) {
-        game.player.stamina -= game.movement.speedPerSecond(1000);
+        game.player.stamina -= game.movement.speedPerSecond(0.5);
       } else {
         game.player.speed = 4;
         game.player.sprinting = false;
       }
     } else {
-      if(game.player.stamina < 5000) game.player.stamina += game.movement.speedPerSecond(500);
-      else game.player.stamina = 5000;
+      if(game.player.stamina < 1) game.player.stamina += game.movement.speedPerSecond(0.25);
+      else game.player.stamina = 1;
     }
     if(Date.now() - game.combat.coolDown < 200) this.cropX = 0;
     var speed = game.movement.speedPerSecond(this.speed);

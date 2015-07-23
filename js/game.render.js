@@ -68,14 +68,7 @@ game.render = {
 
     game.enemy.render();
     game.player.render();
-    this.messageBox(20, 20, 200,
-      ["game.fps: " + game.render.fps,
-      "game.player.x: " + ~~game.player.x,
-      "game.player.y: " + ~~game.player.y,
-      "game.muted (press M): " + game.music.muted,
-      "game.level: " + game.level,
-      "player.stamina: " + game.player.stamina
-    ]);
+    game.debug.render();
     game.status.render();
     if(game.message) this.alert();
     if(game.paused) this.pause();

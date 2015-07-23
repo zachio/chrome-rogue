@@ -39,6 +39,7 @@ var game = {
       "assets",
       "collision",
       "combat",
+      "debug",
       "enemy",
       "listeners",
       "item",
