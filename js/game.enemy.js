@@ -61,10 +61,12 @@ game.enemy = {
     }
   },
   update: function() {
+    //Loop over rats
     for(var i = 0; i < this.enemies.length; i++) {
       var enemy = this.enemies[i];
       var speed = game.movement.speedPerSecond(enemy.speed);
       var playhead = Date.now() - this.timeline;
+      //Update sprite for animation
       if(playhead <= 100)
         enemy.cropX = 3 * 32;
       else if(playhead >= 100 && playhead <= 200)
@@ -74,7 +76,7 @@ game.enemy = {
       else if(playhead >= 300 && playhead <= 400)
         enemy.cropX = 4 * 32;
       else this.timeline = Date.now();
-      //Enemy Direction
+      //Move rat
       switch(enemy.facing) {
         case "left":
           enemy.cropY = 1 * 32;
@@ -111,6 +113,22 @@ game.enemy = {
         enemy.facing = directions[game.math.random(0,3)];
         enemy.directionPlayhead = Date.now();
         enemy.directionTimeline = game.math.random(1000, 2000);
+      }
+
+      //Attack player
+      if(enemy.x > game.player.x - 0.5 && enemy.x - 0.5 < game.player.x
+      && enemy.y > game.player.y - 0.5 && enemy.y - 0.5 < game.player.y
+      && enemy.speed
+    ) {
+        if(Date.now() - game.player.hit.playhead > game.player.hit.cooldown) {
+          game.player.hit.playhead = Date.now();
+          game.sound.effects.hit.play();
+          game.render.ctx.fillStyle = "red";
+          game.render.ctx.fillRect(0,0, window.innerWidth, window.innerHeight);
+          console.log("hit");
+          game.player.hp--;
+          if(game.player.hp <= 0) game.sound.effects.scream.play(); 
+        }
       }
     }
   }

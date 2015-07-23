@@ -3,6 +3,10 @@ game.player = {
   y: 0,
   hp: 10,
   hpMax: 10,
+  hit: {
+    cooldown: 500,
+    playhead: Date.now()
+  },
   cropX: null,
   cropY: null,
   exp: 0,
@@ -92,6 +96,12 @@ game.player = {
         return 1 * 32;
       }
     };
+    //Lying or dead
+    if(this.hp <= 0) this.facing = "lying";
+    if(this.facing === "lying") {
+      this.cropX = 0;
+      this.cropY = 3 * 32;
+    }
     //Walking Animation
     switch(this.facing) {
       case "left":
@@ -110,9 +120,6 @@ game.player = {
         this.cropX = (this.moving.down) ? walkAnimation() : 1 * 32;
         this.cropY = 4 * 32;
         break;
-      case "lying":
-        this.cropX = 0;
-        this.cropY = 3 * 32;
     }
     //Sprinting
     if(this.sprinting) {
