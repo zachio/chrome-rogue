@@ -21,7 +21,10 @@ game.player = {
   facing: "lying",
   speed: 4,
   size: 32,
-  stamina: 1,
+  stamina: {
+    cooldown: 5000,
+    max: 5000
+  },
   image: false,
   //timeline is used for animating the player
   timeline: Date.now(),
@@ -143,15 +146,22 @@ game.player = {
           break;
       }
       //Stamina
-      if(game.player.stamina > 0) {
-        game.player.stamina -= game.movement.speedPerSecond(0.5);
+      if(game.skill.stamina.cooldown > 0) {
+        game.skill.stamina.cooldown -= game.movement.speedPerSecond(1000);
+        game.skill.stamina.exp += game.movement.speedPerSecond(1000);
+        //Level Stamina
+        if(game.skill.stamina.exp >= game.skill.stamina.expMax) {
+          game.skill.stamina.levelUp();
+          game.render.alert(["Your stamina has ","leveled to " + game.skill.stamina.level]);
+          game.skill.stamina.exp = 0;
+        }
       } else {
         game.player.speed = 4;
         game.player.sprinting = false;
       }
     } else {
-      if(game.player.stamina < 1) game.player.stamina += game.movement.speedPerSecond(0.25);
-      else game.player.stamina = 1;
+      if(game.skill.stamina.cooldown < game.skill.stamina.max) game.skill.stamina.cooldown += game.movement.speedPerSecond(500);
+      else game.skill.stamina.cooldown = game.skill.stamina.max;
     }
     if(Date.now() - game.combat.coolDown < 200) this.cropX = 0;
     var speed = game.movement.speedPerSecond(this.speed);

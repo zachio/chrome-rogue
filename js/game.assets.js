@@ -9,6 +9,10 @@ game.assets = {
   "assets/images/rat.png",
   "assets/images/sword.png",
   "assets/images/deadrat.png",
+  "assets/images/blood-splatter.png",
+  "assets/images/blood-right.png",
+  "assets/images/blood-down.png",
+  "assets/images/blood-left.png",
   "assets/audio/dungeon.mp3",
   "assets/audio/little_miss_sunshine.mp3",
   "assets/audio/steps.mp3",
@@ -222,6 +226,10 @@ game.assets = {
             chest: Canvas(game.assets.images[4], 6, 4, 1, 4),
             rat: new Sprite(game.assets.images[5], 4, 0),
             deadrat: new Sprite(game.assets.images[5], 3, 0),
+            bloodUp: game.assets.images[8],
+            bloodRight: game.assets.images[9],
+            bloodDown: game.assets.images[10],
+            bloodLeft: game.assets.images[11]
         };
         self.loadingImg.style.display = "none";
         document.body.appendChild(game.render.canvas);

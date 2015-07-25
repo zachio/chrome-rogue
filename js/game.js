@@ -50,6 +50,7 @@ var game = {
       "music",
       "player",
       "render",
+      "skill",
       "sound",
       "status",
       "Tile",

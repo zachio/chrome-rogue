@@ -89,7 +89,7 @@ game.status = {
     ctx.fillRect(bar.x, bar.y, bar.width * game.player.hp / game.player.hpMax, bar.height);
     ctx.strokeRect(bar.x, bar.y , bar.width, bar.height);
     ctx.fillStyle = "lime";
-    ctx.fillRect(bar.x, bar.y + lineHeight, bar.width * game.player.stamina, bar.height);
+    ctx.fillRect(bar.x, bar.y + lineHeight, bar.width * game.skill.stamina.cooldown / game.skill.stamina.max, bar.height);
     ctx.strokeRect(bar.x, bar.y + lineHeight, bar.width, bar.height);
   }
 };

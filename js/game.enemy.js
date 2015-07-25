@@ -5,15 +5,17 @@ game.enemy = {
   },
   generate: function() {
     function Rat(x, y) {
+      var dir = ["left","up","right","down"]
       this.x = x;
       this.y = y;
       this.cropX = null;
       this.cropY = null;
       this.startX = x;
       this.speed = 5;
-      this.facing = "right";
+      this.facing = dir[game.math.random(0,3)];
       this.directionPlayhead = Date.now();
       this.directionTimeline = game.math.random(1000, 2000);
+      this.blood = null;
     }
     //Place rats
     for(var i = 0; i < game.map.rooms.length; i++) {
@@ -56,6 +58,55 @@ game.enemy = {
           scale,
           scale
         );
+        //Blood
+        var blood = {
+          x: null,
+          y: null,
+          width: 803,
+          height: 1016,
+          scale: 0.25
+        };
+        blood.width *= blood.scale * game.render.scale;
+        blood.height *= blood.scale * game.render.scale;
+        blood.x = drawX - blood.width / (1.25 * game.render.scale);
+        blood.y = drawY - blood.height * 0.75;
+        game.render.ctx.save();
+        switch(enemy.blood) {
+          case "left":
+            blood.y += blood.width * 0.5;
+            blood.x -= blood.width * 0.6;
+            game.render.ctx.drawImage(
+              game.assets.sprite.bloodLeft,
+              blood.x, blood.y,
+              blood.height, blood.width
+            );
+            break;
+          case "up":
+            game.render.ctx.drawImage(
+              game.assets.sprite.bloodUp,
+              blood.x, blood.y,
+              blood.width, blood.height
+            );
+            break;
+          case "right":
+            blood.y += blood.width * 0.5;
+            blood.x += blood.width * 0.4;
+            game.render.ctx.drawImage(
+              game.assets.sprite.bloodRight,
+              blood.x, blood.y,
+              blood.height, blood.width
+            );
+            break;
+          case "down":
+            blood.y += blood.height * 0.7;
+            game.render.ctx.drawImage(
+              game.assets.sprite.bloodDown,
+              blood.x, blood.y,
+              blood.width, blood.height
+            );
+            break;
+        }
+
       }
 
     }
@@ -127,7 +178,7 @@ game.enemy = {
           game.render.ctx.fillRect(0,0, window.innerWidth, window.innerHeight);
           console.log("hit");
           game.player.hp--;
-          if(game.player.hp <= 0) game.sound.effects.scream.play(); 
+          if(game.player.hp <= 0) game.sound.effects.scream.play();
         }
       }
     }

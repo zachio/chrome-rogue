@@ -14,32 +14,37 @@ game.combat = {
       game.sound.effects.hit.load();
       game.sound.effects.hit.play();
     };
-    var kill = function() {
+    var kill = function(dir) {
       sound();
-      if(enemy.speed) game.player.exp += 10;
+      if(enemy.speed) {
+        game.player.exp += 10;
+        enemy.blood = dir;
+      }
       enemy.speed = 0;
     };
+    //Attack!
     for(var i = 0; i < game.enemy.enemies.length; i++) {
       var enemy = game.enemy.enemies[i];
       switch(game.player.facing) {
         case "left":
           if(isEnemy(-reach, -reach - 2, 0.5, -0.5)) {
-            kill();
+            kill("left");
+
           }
           break;
         case "up":
           if(isEnemy(0.5, -0.5, -reach, -reach - 2)) {
-            kill();
+            kill("up");
           }
           break;
         case "right":
           if(isEnemy(reach + 2, reach, 0.5, -0.5)) {
-            kill();
+            kill("right");
           }
           break;
         case "down":
           if(isEnemy(0.5, -0.5, reach + 2, reach)) {
-            kill();
+            kill("down");
           }
           break;
       }
