@@ -36,7 +36,7 @@ game.status = {
         95 * game.render.scale
       );
 
-      //Render text
+      //Render first Column
       var text = {
         y: boxPadding + box.innerPadding + 110 * game.render.scale,
         lineHeight: 30,
@@ -47,14 +47,15 @@ game.status = {
           "Experience: " + game.player.exp,
           "Items:"
         ],
-        display: function() {
-          for(var i = 0; i < this.content.length; i++) {
+        display: function(content, x) {
+          var y = boxPadding + box.innerPadding + 110 * game.render.scale;
+          for(var i = 0; i < content.length; i++) {
             game.render.ctx.fillText(
-              this.content[i],
-              boxPadding + box.innerPadding,
-              this.y
+              content[i],
+              x,
+              y
             );
-            this.y += this.lineHeight;
+            y += this.lineHeight;
           }
         }
       };
@@ -66,7 +67,11 @@ game.status = {
       }
       game.render.ctx.font = "20px Arial";
       game.render.ctx.fillStyle = text.color;
-      text.display();
+      text.display(text.content, boxPadding + box.innerPadding);
+      text.display([
+        "Skills",
+        "Stamina: " + game.skill.stamina.level],
+        boxPadding + box.innerPadding + 200 * game.render.scale);
 
     game.render.ctx.restore();
 

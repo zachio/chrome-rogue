@@ -1,3 +1,5 @@
+"strict-mode"
+
 game.player = {
   x: 0,
   y: 0,

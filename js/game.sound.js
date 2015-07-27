@@ -5,7 +5,8 @@ game.sound = {
     hit: null,
     chest: null,
     grunt: null,
-    scream: null
+    scream: null,
+    level: null
   },
   timeline: Date.now(),
   init: function() {
@@ -15,6 +16,7 @@ game.sound = {
     this.effects.chest = game.assets.audio[7];
     this.effects.grunt = game.assets.audio[8];
     this.effects.scream = game.assets.audio[9];
+    this.effects.level = game.assets.audio[10];
   },
   //Creates sound snippets
   update: function() {

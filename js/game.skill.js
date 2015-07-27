@@ -6,6 +6,7 @@ game.skill = {
     max: 1000,
     cooldown: Date.now(),
     levelUp: function() {
+      game.sound.effects.level.play();
       this.level++;
       this.expMax += this.expMax * 0.1;
       this.max += this.max * 0.1;
