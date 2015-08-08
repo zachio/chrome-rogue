@@ -166,13 +166,13 @@ game.enemy = {
         enemy.directionTimeline = game.math.random(1000, 2000);
       }*/
       //Move toward player
-      if(enemy.x < game.player.x) {
+      if(Math.floor(enemy.x) < Math.floor(game.player.x)) {
         enemy.facing = "right";
-      } else if(enemy.x > game.player.x + 32 * game.render.scale) {
+      } else if( Math.floor(enemy.x) > Math.floor(game.player.x)) {
         enemy.facing = "left";
-      } else if(enemy.y < game.player.y) {
+      } else if(Math.floor(enemy.y) < Math.floor(game.player.y)) {
         enemy.facing = "down";
-      } else if(enemy.y > game.player.y + 32 * game.render.scale) {
+      } else if(Math.floor(enemy.y) > Math.floor(game.player.y)) {
         enemy.facing = "up";
       }
 
