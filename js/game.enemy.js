@@ -156,15 +156,6 @@ game.enemy = {
             enemy.facing = "up";
           break;
       }
-      //Switch Direction
-      //Random Direction
-      /*
-      if(Date.now() - enemy.directionPlayhead > enemy.directionTimeline) {
-        var directions = ["left","up","right","down"];
-        enemy.facing = directions[game.math.random(0,3)];
-        enemy.directionPlayhead = Date.now();
-        enemy.directionTimeline = game.math.random(1000, 2000);
-      }*/
       //Move toward player
       if(Math.floor(enemy.x) < Math.floor(game.player.x)) {
         enemy.facing = "right";
