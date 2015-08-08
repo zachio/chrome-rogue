@@ -156,27 +156,16 @@ game.enemy = {
             enemy.facing = "up";
           break;
       }
-      //Switch Direction
-      //Random Direction
-      /*
-      if(Date.now() - enemy.directionPlayhead > enemy.directionTimeline) {
-        var directions = ["left","up","right","down"];
-        enemy.facing = directions[game.math.random(0,3)];
-        enemy.directionPlayhead = Date.now();
-        enemy.directionTimeline = game.math.random(1000, 2000);
-      }*/
-      //Move toward player if within 8 blocks of player
-      
-      if ( game.misc.distance(enemy.x,enemy.y,game.player.x,game.player.y) < 8 && game.player.hp > 0 ){
-            if(Math.floor(enemy.x) < Math.floor(game.player.x)) {
-                enemy.facing = "right";
-            } else if( Math.floor(enemy.x) > Math.floor(game.player.x)) {
-                enemy.facing = "left";
-            } else if(Math.floor(enemy.y) < Math.floor(game.player.y)) {
-                enemy.facing = "down";
-            } else if(Math.floor(enemy.y) > Math.floor(game.player.y)) {
-                enemy.facing = "up";
-            }
+
+      //Move toward player
+      if(Math.floor(enemy.x) < Math.floor(game.player.x)) {
+        enemy.facing = "right";
+      } else if( Math.floor(enemy.x) > Math.floor(game.player.x)) {
+        enemy.facing = "left";
+      } else if(Math.floor(enemy.y) < Math.floor(game.player.y)) {
+        enemy.facing = "down";
+      } else if(Math.floor(enemy.y) > Math.floor(game.player.y)) {
+        enemy.facing = "up";
       }
       
       //Attack player
