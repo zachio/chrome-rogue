@@ -75,7 +75,7 @@ var game = {
     game.time.update();
     game.render.clearScreen();
     game.render.frame();
-    if(!game.paused && !game.message) {
+    if(!game.paused && !game.message && !game.status.isOn) {
       game.update();
     }
     requestAnimationFrame(game.tick);

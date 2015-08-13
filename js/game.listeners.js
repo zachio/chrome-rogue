@@ -8,19 +8,20 @@ window.onkeydown = function (event) {
   if(game.player.hp > 0) {
     switch (event.keyCode) {
        //Left
-      case 37:
+      case 37: //Arrow left
       case 65: // a
         game.player.facing = "left";
         game.player.moving.left = true;
         game.message = false;
         break;
        //Up
-      case 38:
+      case 38: //Arrow Up
       case 87: // w
         game.player.facing = "up";
-         game.player.moving.up = true;
-         game.message = false;
-         break;
+        game.player.moving.up = true;
+        game.message = false;
+        if(game.status.isOn) game.status.moveSelector("up");
+        break;
        //Right
       case 39:
       case 68: // d
@@ -34,6 +35,7 @@ window.onkeydown = function (event) {
         game.player.facing = "down";
         game.player.moving.down = true;
         game.message = false;
+        if(game.status.isOn) game.status.moveSelector("down");
         break;
       //options
       case 49: // 1

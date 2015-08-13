@@ -1,6 +1,6 @@
 game.status = {
   isOn: false,
-  playhead: Date.now(),
+  padding: 100,
   render: function() {
     var fadeSpeed = game.movement.speedPerSecond(4);
     if(this.isOn) {
@@ -53,8 +53,7 @@ game.status = {
           for(var i = 0; i < content.length; i++) {
             game.render.ctx.fillText(
               content[i],
-              x,
-              y
+              x, y
             );
             y += this.lineHeight;
           }
@@ -67,7 +66,7 @@ game.status = {
       //Display Stats
       text.display(text.content, boxPadding + box.innerPadding);
       var items = ["Items"];
-      var isItems = false;
+
       for(var prop in game.item) {
         if(game.item[prop]) {
           items.push(prop + " x " + game.item[prop]);
@@ -78,23 +77,46 @@ game.status = {
       text.display(
         items,
         boxPadding + box.innerPadding + 200 * game.render.scale);
-      //Display item selector
-      var selector = {
-        x: boxPadding + box.innerPadding + 180 * game.render.scale,
-        y: boxPadding + box.innerPadding + 110 * game.render.scale + 30,
-        timeline: 1000
-      };
-      if(Date.now() - this.playhead <= selector.timeline / 2 && isItems){
-        game.render.ctx.fillText(">", selector.x, selector.y);
-      }
-      else if(Date.now() - this.playhead > selector.timeline) {
-        this.playhead = Date.now();
-      }
+      this.selector.render();
+
 
     game.render.ctx.restore();
 
     //Player Quick Stats
     this.quickStats();
+  },
+  selector: {
+    playhead: Date.now(),
+    x: 100 + 30 + 180 * game.render.scale,
+    y: 100 + 30 + 110 * game.render.scale + 30,
+    timeline: 1000,
+    render: function() {
+      var isItems = false;
+      //Display item selector
+      if(Date.now() - this.playhead <= this.timeline / 2 && isItems){
+        game.render.ctx.fillText(">", this.x, this.y);
+      }
+      else if(Date.now() - this.playhead > this.timeline) {
+        this.playhead = Date.now();
+      }
+    },
+    move: function(dir) {
+      for(var prop in game.item) {
+        if(game.item[prop]) {
+          items.push(prop + " x " + game.item[prop]);
+        }
+      }
+      switch(dir) {
+        case "up":
+          console.log("up");
+          this.y -= 30;
+          break;
+        case "down":
+          console.log("down");
+          this.y += 30;
+          break;
+      }
+    }
   },
   opacity: 0,
   quickStats: function() {
