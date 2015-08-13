@@ -30,7 +30,7 @@ game.Tile = function(x, y, type) {
         this.timeline = null;
         this.opened = false;
         this.message = false;
-        this.item = null;
+        this.item = {name: "potion", quanity: 1};
         break;
     }
   };

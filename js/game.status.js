@@ -1,5 +1,6 @@
 game.status = {
   isOn: false,
+  playhead: Date.now(),
   render: function() {
     var fadeSpeed = game.movement.speedPerSecond(4);
     if(this.isOn) {
@@ -45,7 +46,7 @@ game.status = {
           "Name: Chrome",
           "Level: " + game.level,
           "Experience: " + game.player.exp,
-          "Items:"
+          "Stamina: " + game.skill.stamina.level
         ],
         display: function(content, x) {
           var y = boxPadding + box.innerPadding + 110 * game.render.scale;
@@ -59,19 +60,36 @@ game.status = {
           }
         }
       };
-      for(var prop in game.item) {
-        if(game.item[prop]) {
-          text.content.push(prop + " " + game.item[prop]);
-        }
 
-      }
+
       game.render.ctx.font = "20px Arial";
       game.render.ctx.fillStyle = text.color;
+      //Display Stats
       text.display(text.content, boxPadding + box.innerPadding);
-      text.display([
-        "Skills",
-        "Stamina: " + game.skill.stamina.level],
+      var items = ["Items"];
+      var isItems = false;
+      for(var prop in game.item) {
+        if(game.item[prop]) {
+          items.push(prop + " x " + game.item[prop]);
+          isItems = true;
+        }
+      }
+      //Display Items
+      text.display(
+        items,
         boxPadding + box.innerPadding + 200 * game.render.scale);
+      //Display item selector
+      var selector = {
+        x: boxPadding + box.innerPadding + 180 * game.render.scale,
+        y: boxPadding + box.innerPadding + 110 * game.render.scale + 30,
+        timeline: 1000
+      };
+      if(Date.now() - this.playhead <= selector.timeline / 2 && isItems){
+        game.render.ctx.fillText(">", selector.x, selector.y);
+      }
+      else if(Date.now() - this.playhead > selector.timeline) {
+        this.playhead = Date.now();
+      }
 
     game.render.ctx.restore();
 
