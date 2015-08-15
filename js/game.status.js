@@ -65,15 +65,14 @@ game.status = {
       game.render.ctx.fillStyle = text.color;
       //Display Stats
       text.display(text.content, boxPadding + box.innerPadding);
-      var items = ["Items"];
 
+      //Display Items
+      var items = ["Items"];
       for(var prop in game.item) {
         if(game.item[prop]) {
           items.push(prop + " x " + game.item[prop]);
-          isItems = true;
         }
       }
-      //Display Items
       text.display(
         items,
         boxPadding + box.innerPadding + 200 * game.render.scale);
@@ -89,9 +88,19 @@ game.status = {
     playhead: Date.now(),
     x: 100 + 30 + 180 * game.render.scale,
     y: 100 + 30 + 110 * game.render.scale + 30,
-    timeline: 1000,
+    yTop: 100 + 30 + 110 * game.render.scale + 30,
+    timeline: 500,
+    currentItem: 0,
     render: function() {
-      var isItems = false;
+      var
+        isItems = false,
+        items = ["Items"];
+      for(var prop in game.item) {
+        if(game.item[prop]) {
+          items.push(prop + " x " + game.item[prop]);
+          isItems = true;
+        }
+      }
       //Display item selector
       if(Date.now() - this.playhead <= this.timeline / 2 && isItems){
         game.render.ctx.fillText(">", this.x, this.y);
@@ -101,20 +110,36 @@ game.status = {
       }
     },
     move: function(dir) {
+
+      var items = ["Items"];
+      var hasItem = false;
+      var typeCount = 0;
       for(var prop in game.item) {
         if(game.item[prop]) {
           items.push(prop + " x " + game.item[prop]);
+          hasItem = true;
+          typeCount++;
         }
       }
-      switch(dir) {
-        case "up":
-          console.log("up");
-          this.y -= 30;
-          break;
-        case "down":
-          console.log("down");
-          this.y += 30;
-          break;
+      if(hasItem) {
+        game.sound.effects.beep.load();
+        game.sound.effects.beep.play();
+        switch(dir) {
+          case "up":
+            console.log("up");
+            if(this.y > this.yTop) {
+              this.y -= 30;
+              --this.currentItem;
+            }
+            break;
+          case "down":
+            console.log("down");
+            if(this.currentItem < typeCount - 1) {
+              this.y += 30;
+              ++this.currentItem;
+            }
+            break;
+        }
       }
     }
   },

@@ -20,7 +20,7 @@ window.onkeydown = function (event) {
         game.player.facing = "up";
         game.player.moving.up = true;
         game.message = false;
-        if(game.status.isOn) game.status.moveSelector("up");
+        if(game.status.isOn) game.status.selector.move("up");
         break;
        //Right
       case 39:
@@ -35,7 +35,7 @@ window.onkeydown = function (event) {
         game.player.facing = "down";
         game.player.moving.down = true;
         game.message = false;
-        if(game.status.isOn) game.status.moveSelector("down");
+        if(game.status.isOn) game.status.selector.move("down");
         break;
       //options
       case 49: // 1
