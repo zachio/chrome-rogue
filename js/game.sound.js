@@ -8,6 +8,7 @@ game.sound = {
     scream: null,
     level: null,
     beep: null,
+    potion: null
   },
   timeline: Date.now(),
   init: function() {
@@ -19,6 +20,7 @@ game.sound = {
     this.effects.scream = game.assets.audio[9];
     this.effects.level = game.assets.audio[10];
     this.effects.beep = game.assets.audio[11];
+    this.effects.potion = game.assets.audio[12];
   },
   //Creates sound snippets
   update: function() {

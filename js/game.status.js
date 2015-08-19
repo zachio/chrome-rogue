@@ -110,7 +110,6 @@ game.status = {
       }
     },
     move: function(dir) {
-
       var items = ["Items"];
       var hasItem = false;
       var typeCount = 0;
@@ -140,6 +139,29 @@ game.status = {
             }
             break;
         }
+      }
+    },
+    useItem: function() {
+      var items = [];
+      for(var prop in game.item) {
+        if(game.item[prop]) {
+          items.push(prop);
+        }
+      }
+      console.log(items[this.currentItem]);
+      switch(items[this.currentItem]) {
+        case "potion":
+          game.sound.effects.potion.load();
+          game.sound.effects.potion.play();
+          --game.item[prop];
+          if(game.player.hpMax - game.player.hp >= 5)
+            game.player.hp += 5;
+          else
+            game.player.hp += game.player.hpMax - game.player.hp;
+          //this.move();
+          break;
+        default:
+          break;
       }
     }
   },
