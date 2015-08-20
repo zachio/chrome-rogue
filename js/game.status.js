@@ -148,22 +148,31 @@ game.status = {
           items.push(prop);
         }
       }
-      console.log(items[this.currentItem]);
       switch(items[this.currentItem]) {
         case "potion":
           game.sound.effects.potion.load();
           game.sound.effects.potion.play();
-          --game.item[prop];
+          --game.item[items[this.currentItem]];
           if(game.player.hpMax - game.player.hp >= 5)
             game.player.hp += 5;
           else
             game.player.hp += game.player.hpMax - game.player.hp;
-          //this.move();
+          //Update selector
+          if(!game.item[items[this.currentItem]] && items.length > 1) {
+            this.y -= 30;
+            --this.currentItem;
+          }
           break;
         default:
           break;
       }
-    }
+    },
+    update: function() {
+      if(!game.item[items[this.currentItem]] && items.length > 1) {
+        this.y -= 30;
+        --this.currentItem;
+      }
+    };
   },
   opacity: 0,
   quickStats: function() {
