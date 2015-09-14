@@ -86,9 +86,9 @@ game.status = {
   },
   selector: {
     playhead: Date.now(),
-    x: 100 + 30 + 180 * game.render.scale,
-    y: 100 + 30 + 110 * game.render.scale + 30,
-    yTop: 100 + 30 + 110 * game.render.scale + 30,
+    x: 100 + 30 + 180 * 2,
+    y: 100 + 30 + 110 * 2 + 30,
+    yTop: 100 + 30 + 110 * 2 + 30,
     timeline: 500,
     currentItem: 0,
     render: function() {
