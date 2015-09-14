@@ -172,7 +172,7 @@ game.status = {
         this.y -= 30;
         --this.currentItem;
       }
-    };
+    }
   },
   opacity: 0,
   quickStats: function() {
