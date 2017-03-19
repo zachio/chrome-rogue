@@ -151,6 +151,7 @@ game.player = {
           break;
       }
       //Stamina
+      //Sprinting state
       if(game.skill.stamina.cooldown > 0) {
         game.skill.stamina.cooldown -= game.movement.speedPerSecond(1000);
         game.skill.stamina.exp += game.movement.speedPerSecond(1000);
@@ -164,8 +165,10 @@ game.player = {
         game.player.speed = 4;
         game.player.sprinting = false;
       }
+      //Resting state
     } else {
-      if(game.skill.stamina.cooldown < game.skill.stamina.max) game.skill.stamina.cooldown += game.movement.speedPerSecond(500);
+      if(game.skill.stamina.cooldown < game.skill.stamina.max) 
+        game.skill.stamina.cooldown += game.movement.speedPerSecond(game.skill.stamina.max * 0.1);
       else game.skill.stamina.cooldown = game.skill.stamina.max;
     }
     if(Date.now() - game.combat.coolDown < 200) this.cropX = 0;

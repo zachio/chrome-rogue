@@ -1,3 +1,4 @@
+var game = game || {};
 
 game.assets = {
   files: [
