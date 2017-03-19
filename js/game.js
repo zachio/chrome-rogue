@@ -33,7 +33,7 @@ var game = {
     };
   },
   init: function() {
-    var loadImg = new Image();
+    var loadImg = document.createElement("img");
     this.loadScreen(loadImg);
     this.load([
       "assets",

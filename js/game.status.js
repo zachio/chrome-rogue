@@ -1,3 +1,5 @@
+var game = game || {};
+
 game.status = {
   isOn: false,
   padding: 100,
@@ -44,7 +46,7 @@ game.status = {
         color: "rgba(255,255,255,"+this.opacity+")",
         content: [
           "Name: Chrome",
-          "Level: " + game.level,
+          "Level: " + game.player.level,
           "Experience: " + game.player.exp,
           "Stamina: " + game.skill.stamina.level
         ],
@@ -158,16 +160,13 @@ game.status = {
           else
             game.player.hp += game.player.hpMax - game.player.hp;
           //Update selector
-          if(!game.item[items[this.currentItem]] && items.length > 1) {
-            this.y -= 30;
-            --this.currentItem;
-          }
+          this.update(items);
           break;
         default:
           break;
       }
     },
-    update: function() {
+    update: function(items) {
       if(!game.item[items[this.currentItem]] && items.length > 1) {
         this.y -= 30;
         --this.currentItem;
@@ -184,7 +183,7 @@ game.status = {
       y: 71
     };
     var lineHeight = 20;
-    game.render.messageBox(20,20,200,["Chrome", "Level: " + game.player.level, "HP:", "S:"]);
+    game.render.messageBox(20,20,200,["Chrome", "Floor: " + game.level, "HP:", "S:", "Stamina Level: " + game.skill.stamina.level]);
     ctx.strokeStyle = "white";
     ctx.fillStyle = "red";
     ctx.fillRect(bar.x, bar.y, bar.width * game.player.hp / game.player.hpMax, bar.height);

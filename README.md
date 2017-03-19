@@ -14,5 +14,3 @@ A topdown roguelike game!  This game is in active development.  Come join us on 
 
 ### Demo
 To demo the game go to https://zachdyer.github.io/chrome-rogue/
-
-## License

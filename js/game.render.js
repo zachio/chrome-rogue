@@ -1,3 +1,5 @@
+var game = game || {};
+
 game.render = {
   canvas: document.createElement("canvas"),
   fps: 0,

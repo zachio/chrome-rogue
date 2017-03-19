@@ -1,5 +1,7 @@
 "strict-mode"
 
+var game = game || {};
+
 game.player = {
   x: 0,
   y: 0,
@@ -25,7 +27,8 @@ game.player = {
   size: 32,
   stamina: {
     cooldown: 5000,
-    max: 5000
+    max: 5000,
+    level: 1
   },
   image: false,
   //timeline is used for animating the player

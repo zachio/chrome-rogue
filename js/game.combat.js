@@ -1,3 +1,5 @@
+var game = game || {};
+
 game.combat = {
   coolDown: Date.now(),
   detect: function() {
@@ -11,6 +13,7 @@ game.combat = {
         }
     };
     var sound = function() {
+      game.sound.effects.hit.pause();
       game.sound.effects.hit.load();
       game.sound.effects.hit.play();
     };

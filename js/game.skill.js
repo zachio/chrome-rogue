@@ -1,3 +1,5 @@
+var game = game || {};
+
 game.skill = {
   stamina: {
     level: 1,
