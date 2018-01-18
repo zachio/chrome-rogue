@@ -25,7 +25,6 @@ var game = {
     image.src = "assets/images/loading.gif";
     image.onload = function() {
       document.body.style.background = "rgb(25, 31, 38)";
-      game.render.canvas.style.background = "rgb(25, 31, 38)";
       this.style.margin = "0 auto";
       this.style.display = "block";
       document.body.appendChild(this);
